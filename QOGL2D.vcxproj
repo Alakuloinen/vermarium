@@ -184,6 +184,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="epic species.txt" />
     <None Include="vermarium.pri" />
     <None Include="vermarium.pro" />
     <None Include="vermarium_en.ts" />

@@ -119,6 +119,7 @@ struct CORP
 		return (x1 + y1 + (x1>y1?x1:y1))/2;
 	}
 
+	//убить и съесть
 	void devor(CORP& vic, float crit_dist)
 	{
 		float part = 1.5 + (float)rand()/RAND_MAX;
@@ -217,7 +218,7 @@ private:
 
 	float massa;			// вся масса
 	float frictio;			// глобальная сила трения
-	int tempus_mortis;		// глобальное среднее время жизни
+	float tempus_mortis;	// глобальное среднее время жизни
 	int vivi;				// число настоящих живых
 	int gener;				// максимальное поколение
 	bool agit;				// работает
@@ -243,7 +244,6 @@ public:
 
 	//количество существ
 	int n() const { return corp.size(); }
-
 
 	//конструктор по ограничительному прямоугольнику
 	OECOSYS(float x1, float y1, float x2, float y2);
@@ -288,6 +288,14 @@ public:
 	//вычислить статистику
 	void calcul();
 
+	//границы
+	float lim_x00() const { return lx1; }
+	float lim_y00() const { return ly1; }
+	float lim_x11() const { return lx2; }
+	float lim_y11() const { return ly2; }
+	float dim_x() const { return lx2-lx1; }
+	float dim_y() const { return ly2-ly1; }
+
 	//возможность спариваться с идентичными
 	void incest(bool val) { incestus = val; }
 	bool incest() { return incestus; }
@@ -302,7 +310,7 @@ public:
 	//биомасса
 	float biomassa() const { return massa; }
 
-	//биомасса
+	//максимальное поколение
 	int max_gener() const { return gener; }
 
 	//все мертвы
@@ -313,12 +321,14 @@ public:
 	void resume() { agit = true; }
 	bool in_actione() const { return agit; }
 
+	//число тактов
 	uint64_t gressus() { return tacta; } 
 
 	//выделение
 	CORP* selectum() const { return sel; }
 	void deselecta() { sel = 0; }
 	bool selecta(float x, float y);
+	int sel_species() { if(!sel) return -1; for(int i=0; i<species.size(); i++) if(species[i].g == sel->gen_spe) return i; }
 
 	///////////////////////////////////////////////////////
 

@@ -108,10 +108,15 @@ CORP::CORP( CORP& parent1, CORP& parent2)
 			case CASUAL: casus = casus;									break;		//случайный из пары родителей
 			case CRUCI: casus = (rand() > rand());						break;		//кроссинговер
 		}
-			
+		
+		//взятие гена с родителей
 		g = casus	? parent1.gen_ind : parent2.gen_ind;
 		GENE rna = synth (g, i*4+3, i*4);
-		if(rand() < mutationFreq()*RAND_MAX) rna = rand()&15;
+
+		//случайная мутация
+		if(rand() < mutationFreq()*RAND_MAX) rna = rna + 2*rndb();
+
+		//укладка гена
 		gen_ind = gen_ind | (rna<<(i*4));
 	}
 

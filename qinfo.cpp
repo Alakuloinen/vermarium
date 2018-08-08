@@ -20,7 +20,7 @@ void OECOSYS::init_gen()
 	add_gen(QT_TR_NOOP("vis errandi publici"),	STOCH_MOT_BASIS,	0,	1);
 	add_gen(QT_TR_NOOP("vicini optimi"),		MAX_VIC_VIS,		2,	128.0 );
 	add_gen(QT_TR_NOOP("massa reproductiva"),	MIN_REPRODUCT_MASS,	0.6,4.0 );
-	add_gen(QT_TR_NOOP("sphaera visionis"),		MAX_DIST_VIS,		1, 200 );
+	add_gen(QT_TR_NOOP("sphaera visionis"),		MAX_DIST_VIS,		30, 200 );
 	add_gen(QT_TR_NOOP("sphaera unae praedae"),	MAX_DIST_ACT,		4,	20 );
 	add_gen(QT_TR_NOOP("sphaera devorandi"),	MAX_DIST_DEVOR,		1,	3 );
 	add_gen(QT_TR_NOOP("sphaera copulandi"),	MAX_DIST_FUCK,		2,	3 );
@@ -46,14 +46,6 @@ QINFO::QINFO(QWidget *parent)
 			OECOSYS::gen_info(i).praesum == 0,
 			1000);
 	}
-
-/*	ui.comboBox->blockSignals(true);
-	ui.comboBox_mod_rep->blockSignals(true);
-	ui.comboBox_subst->blockSignals(true);
-	ui.retranslateUi(this);
-	ui.comboBox->blockSignals(false);
-	ui.comboBox_mod_rep->blockSignals(false);
-	ui.comboBox_subst->blockSignals(false);*/
 
 	remod(NUL);
 
@@ -126,10 +118,11 @@ void QINFO::remod ( MODUS m)
 	{
 	//экосистемы не создано
 	case NUL:
-		ui.pushButton_start		-> setEnabled(false);		// кнопка пуск/стоп
 		ui.pushButton_add		-> setEnabled(true);		// кнопка добавить в ручную
 		ui.pushButton_start		-> setText("*");			// кнопка пуск/стоп
+		ui.pushButton_start		-> setEnabled(false);		// кнопка пуск/стоп
 		ui.pushButton_start		-> setChecked(false);		// кнопка пуск/стоп
+		ui.pushButton_gen		-> setEnabled(true);		// кнопка породить/переродить
 		ui.pushButton_gen		-> setText(tr("Genera"));	// кнопка породить/переродить
 		ui.pushButton_import	-> setEnabled(true);		// кнопка открыть
 		ui.pushButton_export	-> setEnabled(false);		// кнопка сохранить
@@ -148,7 +141,9 @@ void QINFO::remod ( MODUS m)
 		ui.pushButton_destr		-> setEnabled(true);		// кнопка уничтожить
 		ui.pushButton_add		-> setEnabled(false);		// кнопка добавить в ручную
 		ui.pushButton_start		-> setEnabled(true);		// кнопка пуск/стоп
+		ui.pushButton_start		-> setChecked(false);		// кнопка пуск/стоп
 		ui.pushButton_start		-> setText(">");			// кнопка пуск/стоп
+		ui.pushButton_gen		-> setEnabled(true);		// кнопка породить/переродить
 		ui.pushButton_gen		-> setText(tr("Restaura"));	// кнопка породить/переродить
 		ui.pushButton_import	-> setEnabled(false);		// кнопка открыть
 		ui.pushButton_export	-> setEnabled(true);		// кнопка сохранить
@@ -158,7 +153,6 @@ void QINFO::remod ( MODUS m)
 		ui.checkBox_incest		-> setEnabled(false);		// инцест
 		ui.comboBox_mod_rep		-> setEnabled(false);		// тип репликации
 		ui.checkBox_mortal		-> setEnabled(false);		// смертны
-		ui.pushButton_start		-> setChecked(false);		// кнопка пуск/стоп
 
 		//если переход с нуля, то есть создание экосистемы
 		if(modus == NUL) prepar_info();
@@ -168,7 +162,9 @@ void QINFO::remod ( MODUS m)
 	case ACT:
 		ui.pushButton_add		-> setEnabled(false);		// кнопка добавить в ручную
 		ui.pushButton_start		-> setEnabled(true);		// кнопка пуск/стоп
+		ui.pushButton_start		-> setChecked(true);		// кнопка пуск/стоп
 		ui.pushButton_start		-> setText("||");			// кнопка пуск/стоп
+		ui.pushButton_gen		-> setEnabled(false);		// кнопка породить/переродить
 		ui.pushButton_gen		-> setText(tr("Restaura"));	// кнопка породить/переродить
 		ui.spinBox_n			-> setEnabled(false);		// ввод числа существ
 		ui.spinBox_nsp			-> setEnabled(false);		// ввод числа существ
@@ -176,7 +172,6 @@ void QINFO::remod ( MODUS m)
 		ui.checkBox_incest		-> setEnabled(false);		// инцест
 		ui.comboBox_mod_rep		-> setEnabled(false);		// тип репликации
 		ui.checkBox_mortal		-> setEnabled(false);		// смертны
-		ui.pushButton_start		-> setChecked(true);		// кнопка пуск/стоп
 		break;
 
 	//режим ручного добавления
@@ -184,8 +179,10 @@ void QINFO::remod ( MODUS m)
 		ui.pushButton_start		-> setEnabled(false);		// кнопка пуск/стоп
 		ui.pushButton_add		-> setEnabled(true);				// кнопка добавить в ручную
 		ui.pushButton_add		-> setText(tr("Fini addendum"));	// кнопка добавить в ручную
+		ui.pushButton_start		-> setEnabled(false);		// кнопка пуск/стоп
 		ui.pushButton_start		-> setText("*");			// кнопка пуск/стоп
 		ui.pushButton_start		-> setChecked(false);		// кнопка пуск/стоп
+		ui.pushButton_gen		-> setEnabled(false);		// кнопка породить/переродить
 		ui.pushButton_gen		-> setText(tr("Genera"));	// кнопка породить/переродить
 		ui.spinBox_n			-> setEnabled(true);		// ввод числа существ
 		ui.spinBox_nsp			-> setEnabled(false);		// ввод числа видов
@@ -259,7 +256,7 @@ void QINFO::add_mod()
 void QINFO::spec_add_quer_resp(float x, float y)	
 {
 	//произвольный ген
-	if(ui.lineEdit_selgen->text().isEmpty())
+	if(ui.lineEdit_selgen->text().isEmpty() || ui.lineEdit_selgen->text().toULongLong()==0)
 		emit spec_add_info (x, y, stoch(), ui.spinBox_n->value(), ui.doubleSpinBox_insdim->value());
 
 	//введенный/прошлый ген
@@ -328,11 +325,15 @@ void QINFO::mon_info()
 		//предрасчитать статистику
 		ui.openGLWidget->nc->calcul();
 
-
 		for(int i=0; i<ui.openGLWidget->nc->species.size(); i++)
 		{
+			//вывести число
 			ui.tableWidget_species->item(i,0)->setText( QString::number(ui.openGLWidget->nc->species[i].qnt) );
 
+			//покрасить
+			ui.tableWidget_species->item(i,0)->setBackgroundColor(ui.openGLWidget->genchroma(ui.openGLWidget->nc->species[i].g));
+
+			//вывести соотношение
 			QProgressBar* pb = (QProgressBar*)ui.tableWidget_species->cellWidget(i,1);
 			pb->setMaximum(ui.openGLWidget->nc->populatio());
 			pb->setValue(ui.openGLWidget->nc->species[i].qnt);
@@ -365,7 +366,9 @@ void QINFO::mon_info()
 	}
 }
 
+//=========================================================================================================
 //отобразить ген
+//=========================================================================================================
 void QINFO::gen_phaen (CORP* c)
 {
 	for(int i=0;i<N_GENES;i++)
@@ -375,7 +378,9 @@ void QINFO::gen_phaen (CORP* c)
 }
 
 
+//=========================================================================================================
 //немедленно отобразить параметры выделеннного, которые не меняются со временем
+//=========================================================================================================
 void QINFO::sel_index()
 {
 	if(!ui.openGLWidget->nc->selectum())
@@ -397,10 +402,14 @@ void QINFO::sel_index()
 
 		//обобразить фенотип выделенного
 		gen_phaen(ui.openGLWidget->nc->selectum());
+
+		ui.tableWidget_species->selectRow(ui.openGLWidget->nc->sel_species());
 	}
 }
 
+//=========================================================================================================
 //создать поле таблицы соответствующее воплощению гена
+//=========================================================================================================
 void QINFO::tab_init (const char* nmn, float val, bool scal, float max)
 {
 	ui.tableWidget_cur->insertRow(ui.tableWidget_cur->rowCount());
@@ -427,7 +436,9 @@ void QINFO::tab_init (const char* nmn, float val, bool scal, float max)
 		ui.tableWidget_cur->item (ui.tableWidget_cur->rowCount()-1, 0)->setText(QString::number(val));
 	}
 }
+//=========================================================================================================
 //записать поле таблицы соответствующее воплощению гена данного существа
+//=========================================================================================================
 void QINFO::tab_rec (int index, CORP* c, bool edit)
 {
 	if(ui.tableWidget_cur->cellWidget(4+index,0))
@@ -443,7 +454,9 @@ void QINFO::tab_rec (int index, CORP* c, bool edit)
 	}
 }
 
+//=========================================================================================================
 //прочитьать из файла
+//=========================================================================================================
 void QINFO::relege()
 {
 	QString fn = QFileDialog::getOpenFileName(this, QString(), QString(), tr("Oecosystema (*.huy)"));
@@ -458,10 +471,16 @@ void QINFO::relege()
 		ui.openGLWidget->import(ba);
 
 		remod(PND);
+
+		//вывести сохраненное из файла время жизни
+		ui.spinBox_vl->setValue(ui.openGLWidget->nc->longaevitas());
+		ui.checkBox_mortal->setChecked(ui.openGLWidget->nc->longaevitas()>0);
 	}
 }
 
+//=========================================================================================================
 //сохранить
+//=========================================================================================================
 void QINFO::conserva()
 {
 	QString fn = QFileDialog::getSaveFileName(this, QString(), QString(), tr("Oecosystema (*.huy)"));

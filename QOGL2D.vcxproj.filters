@@ -114,5 +114,8 @@
     <None Include="vermarium_en.ts">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="epic species.txt">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
