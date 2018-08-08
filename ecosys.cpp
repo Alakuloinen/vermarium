@@ -439,11 +439,23 @@ void OECOSYS::mod_a (CORP& cur)
 
 						//соприкосновение
 						//если партнеры достаточно массивны для деторождения и не совпадают генами (нет инцесту!)
-						if(dist<copu_dist && cur_adult && vic_adult && ((!incestus)?(cur.gen_ind != vic.gen_ind):true))
+						if(dist<copu_dist)
 						{
-							//добавить текущий в планы
-							cur.vic = &vic;
-							return;
+							if(cur_adult && vic_adult && ((!incestus)?(cur.gen_ind != vic.gen_ind):true))
+							{
+								//добавить текущий в планы
+								cur.vic = &vic;
+								return;
+							}
+							else
+							{
+								//экстремальное сближение порождает отталкивание
+								rax = afactor * dx;
+								ray = afactor * dy;
+
+								//переприсвоить расстояние, чтобы данный случай не подпадал под концентрацию на одной цели
+								dist = 1000;
+							}
 						}
 						//сближение или удаление
 						else
@@ -451,12 +463,10 @@ void OECOSYS::mod_a (CORP& cur)
 							
 							//показатель зрелости обоих, >1 -> зрелы
 							float a_ratio = (cur.m * vic.m ) / (cur_adult_m * vic_adult_m);
-							afactor *= (1 - a_ratio) / (dist + 0.0001);
+							afactor *= (1 - a_ratio) / (dist - copu_dist/2);
 							if(a_ratio>1)
-							{
 								if(!vic_adult)	afactor *= pedophilia;
 								else			afactor *= sui_philia;
-							}
 							else				afactor *= sui_phobia;
 
 							//сближение (от зрелости) или удаление (по молодости)
@@ -468,11 +478,14 @@ void OECOSYS::mod_a (CORP& cur)
 					else
 					{
 						//соприкосновение + съедание, если более меький чужак
-						if(dist < crit_dist && cur.e > vic.e )
+						if(dist < crit_dist )
 						{
 							//добавить текущий в планы
-							cur.vic = &vic;
-							return;
+							if(cur.e > vic.e)
+							{
+								cur.vic = &vic;
+								return;
+							}
 						}
 						//антагонист недалеко, главное исключить уже мёртвых
 						else
@@ -481,7 +494,7 @@ void OECOSYS::mod_a (CORP& cur)
 							float m_ratio;
 
 							
-							#define AGGR_METHOD 2
+							#define AGGR_METHOD 1
 
 							//---------------------------------------------------------------
 							//аддитивный метод выяснения, нападать или бежать
@@ -489,7 +502,7 @@ void OECOSYS::mod_a (CORP& cur)
 							#if AGGR_METHOD == 0
 							m_ratio = vic.m*opp_phobia - cur.m*opp_philia;
 							if(vic.e<=0) m_ratio = -necrophagia*(1.0 + vic.m/3);
-							afactor *= (m_ratio)*(cur_adult_m/cur.m) / (dist + 0.001);
+							afactor *= (m_ratio) / (dist - crit_dist/2);
 							#endif
 							//---------------------------------------------------------------
 
@@ -501,7 +514,7 @@ void OECOSYS::mod_a (CORP& cur)
 							#if AGGR_METHOD == 1
 							m_ratio = cur.m/vic.m;
 							if(vic.e<=0) m_ratio = necrophagia*(1.0 + vic.m/3);
-							afactor *= (1 - m_ratio)*(cur_adult_m/cur.m) / (dist + 0.001);
+							afactor *= (1 - m_ratio) / (dist - crit_dist/2);
 							if(m_ratio>1)	afactor *= opp_philia;
 							else			afactor *= opp_phobia;
 							#endif
@@ -514,7 +527,7 @@ void OECOSYS::mod_a (CORP& cur)
 							#if AGGR_METHOD == 2
 							m_ratio = (0.1 + cur.m*opp_philia)/(0.1 + vic.m*opp_phobia);
 							if(vic.e<=0) m_ratio = necrophagia*(1.0 + vic.m/3);
-							afactor *= (1 - m_ratio)*(cur_adult_m/cur.m) / (dist + 0.001);
+							afactor *= (1 - m_ratio) / (dist - crit_dist/2);
 							#endif
 							//---------------------------------------------------------------
 
