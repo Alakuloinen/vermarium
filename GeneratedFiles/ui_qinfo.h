@@ -41,20 +41,26 @@ public:
     GLW *openGLWidget;
     QVBoxLayout *verticalLayout;
     QGridLayout *gridLayout;
-    QLabel *label_2;
-    QSpinBox *spinBox_nsp;
-    QSpinBox *spinBox_n;
-    QSpinBox *spinBox_vl;
-    QLabel *label_3;
-    QCheckBox *checkBox_mortal;
-    QCheckBox *checkBox_incest;
-    QComboBox *comboBox_mod_rep;
-    QLabel *label;
     QDoubleSpinBox *doubleSpinBox_insdim;
-    QComboBox *comboBox;
+    QCheckBox *checkBox_mortal;
+    QLabel *label_9;
     QLabel *label_7;
+    QComboBox *comboBox;
+    QLabel *label;
+    QComboBox *comboBox_mod_rep;
+    QCheckBox *checkBox_incest;
+    QSpinBox *spinBox_vl;
+    QSpinBox *spinBox_n;
+    QSpinBox *spinBox_nsp;
+    QLabel *label_4;
+    QSlider *horizontalSlider_spe_gen_part;
+    QLabel *label_3;
     QPushButton *pushButton_gengen;
     QLineEdit *lineEdit_selgen;
+    QHBoxLayout *horizontalLayout_5;
+    QDoubleSpinBox *doubleSpinBox_mutpro;
+    QDoubleSpinBox *doubleSpinBox_mutprospe;
+    QLabel *label_2;
     QFrame *line;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *pushButton_gen;
@@ -64,8 +70,6 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QPushButton *pushButton_import;
     QPushButton *pushButton_export;
-    QLabel *label_4;
-    QSlider *horizontalSlider_spe_gen_part;
     QTableWidget *tableWidget_species;
     QTableWidget *tableWidget_cur;
     QGridLayout *gridLayout_2;
@@ -122,26 +126,73 @@ public:
         gridLayout->setHorizontalSpacing(1);
         gridLayout->setVerticalSpacing(0);
         gridLayout->setContentsMargins(-1, 3, -1, -1);
-        label_2 = new QLabel(QINFO);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        doubleSpinBox_insdim = new QDoubleSpinBox(QINFO);
+        doubleSpinBox_insdim->setObjectName(QStringLiteral("doubleSpinBox_insdim"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(doubleSpinBox_insdim->sizePolicy().hasHeightForWidth());
+        doubleSpinBox_insdim->setSizePolicy(sizePolicy1);
+        doubleSpinBox_insdim->setMinimumSize(QSize(46, 0));
+        doubleSpinBox_insdim->setMaximum(1);
+        doubleSpinBox_insdim->setSingleStep(0.01);
+        doubleSpinBox_insdim->setValue(0.1);
 
-        gridLayout->addWidget(label_2, 0, 0, 1, 1);
+        gridLayout->addWidget(doubleSpinBox_insdim, 6, 1, 1, 1);
 
-        spinBox_nsp = new QSpinBox(QINFO);
-        spinBox_nsp->setObjectName(QStringLiteral("spinBox_nsp"));
-        spinBox_nsp->setMinimum(1);
-        spinBox_nsp->setMaximum(16);
-        spinBox_nsp->setValue(4);
+        checkBox_mortal = new QCheckBox(QINFO);
+        checkBox_mortal->setObjectName(QStringLiteral("checkBox_mortal"));
+        checkBox_mortal->setChecked(true);
 
-        gridLayout->addWidget(spinBox_nsp, 0, 1, 1, 1);
+        gridLayout->addWidget(checkBox_mortal, 4, 0, 1, 1);
 
-        spinBox_n = new QSpinBox(QINFO);
-        spinBox_n->setObjectName(QStringLiteral("spinBox_n"));
-        spinBox_n->setMinimum(1);
-        spinBox_n->setMaximum(10000);
-        spinBox_n->setValue(150);
+        label_9 = new QLabel(QINFO);
+        label_9->setObjectName(QStringLiteral("label_9"));
 
-        gridLayout->addWidget(spinBox_n, 1, 1, 1, 1);
+        gridLayout->addWidget(label_9, 8, 0, 1, 1);
+
+        label_7 = new QLabel(QINFO);
+        label_7->setObjectName(QStringLiteral("label_7"));
+
+        gridLayout->addWidget(label_7, 6, 0, 1, 1);
+
+        comboBox = new QComboBox(QINFO);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        sizePolicy1.setHeightForWidth(comboBox->sizePolicy().hasHeightForWidth());
+        comboBox->setSizePolicy(sizePolicy1);
+        comboBox->setMinimumSize(QSize(1, 0));
+
+        gridLayout->addWidget(comboBox, 3, 1, 1, 1);
+
+        label = new QLabel(QINFO);
+        label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
+
+        gridLayout->addWidget(label, 1, 0, 1, 1);
+
+        comboBox_mod_rep = new QComboBox(QINFO);
+        comboBox_mod_rep->setObjectName(QStringLiteral("comboBox_mod_rep"));
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(comboBox_mod_rep->sizePolicy().hasHeightForWidth());
+        comboBox_mod_rep->setSizePolicy(sizePolicy3);
+
+        gridLayout->addWidget(comboBox_mod_rep, 5, 1, 1, 1);
+
+        checkBox_incest = new QCheckBox(QINFO);
+        checkBox_incest->setObjectName(QStringLiteral("checkBox_incest"));
+        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(checkBox_incest->sizePolicy().hasHeightForWidth());
+        checkBox_incest->setSizePolicy(sizePolicy4);
+
+        gridLayout->addWidget(checkBox_incest, 5, 0, 1, 1);
 
         spinBox_vl = new QSpinBox(QINFO);
         spinBox_vl->setObjectName(QStringLiteral("spinBox_vl"));
@@ -151,93 +202,170 @@ public:
 
         gridLayout->addWidget(spinBox_vl, 4, 1, 1, 1);
 
+        spinBox_n = new QSpinBox(QINFO);
+        spinBox_n->setObjectName(QStringLiteral("spinBox_n"));
+        spinBox_n->setMinimum(1);
+        spinBox_n->setMaximum(10000);
+        spinBox_n->setValue(150);
+
+        gridLayout->addWidget(spinBox_n, 1, 1, 1, 1);
+
+        spinBox_nsp = new QSpinBox(QINFO);
+        spinBox_nsp->setObjectName(QStringLiteral("spinBox_nsp"));
+        spinBox_nsp->setMinimum(1);
+        spinBox_nsp->setMaximum(16);
+        spinBox_nsp->setValue(4);
+
+        gridLayout->addWidget(spinBox_nsp, 0, 1, 1, 1);
+
+        label_4 = new QLabel(QINFO);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        gridLayout->addWidget(label_4, 7, 0, 1, 1);
+
+        horizontalSlider_spe_gen_part = new QSlider(QINFO);
+        horizontalSlider_spe_gen_part->setObjectName(QStringLiteral("horizontalSlider_spe_gen_part"));
+        QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(horizontalSlider_spe_gen_part->sizePolicy().hasHeightForWidth());
+        horizontalSlider_spe_gen_part->setSizePolicy(sizePolicy5);
+        horizontalSlider_spe_gen_part->setMinimumSize(QSize(10, 10));
+        horizontalSlider_spe_gen_part->setBaseSize(QSize(0, 10));
+        QPalette palette;
+        QBrush brush(QColor(0, 0, 0, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::WindowText, brush);
+        QBrush brush1(QColor(0, 170, 255, 255));
+        brush1.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Button, brush1);
+        QBrush brush2(QColor(127, 213, 255, 255));
+        brush2.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Light, brush2);
+        QBrush brush3(QColor(63, 191, 255, 255));
+        brush3.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Midlight, brush3);
+        QBrush brush4(QColor(0, 85, 127, 255));
+        brush4.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Dark, brush4);
+        QBrush brush5(QColor(0, 113, 170, 255));
+        brush5.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Mid, brush5);
+        palette.setBrush(QPalette::Active, QPalette::Text, brush);
+        QBrush brush6(QColor(255, 255, 255, 255));
+        brush6.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::BrightText, brush6);
+        palette.setBrush(QPalette::Active, QPalette::ButtonText, brush);
+        palette.setBrush(QPalette::Active, QPalette::Base, brush6);
+        palette.setBrush(QPalette::Active, QPalette::Window, brush1);
+        palette.setBrush(QPalette::Active, QPalette::Shadow, brush);
+        QBrush brush7(QColor(127, 212, 255, 255));
+        brush7.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::AlternateBase, brush7);
+        QBrush brush8(QColor(255, 255, 220, 255));
+        brush8.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::ToolTipBase, brush8);
+        palette.setBrush(QPalette::Active, QPalette::ToolTipText, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Button, brush1);
+        palette.setBrush(QPalette::Inactive, QPalette::Light, brush2);
+        palette.setBrush(QPalette::Inactive, QPalette::Midlight, brush3);
+        palette.setBrush(QPalette::Inactive, QPalette::Dark, brush4);
+        palette.setBrush(QPalette::Inactive, QPalette::Mid, brush5);
+        palette.setBrush(QPalette::Inactive, QPalette::Text, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::BrightText, brush6);
+        palette.setBrush(QPalette::Inactive, QPalette::ButtonText, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Base, brush6);
+        palette.setBrush(QPalette::Inactive, QPalette::Window, brush1);
+        palette.setBrush(QPalette::Inactive, QPalette::Shadow, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::AlternateBase, brush7);
+        palette.setBrush(QPalette::Inactive, QPalette::ToolTipBase, brush8);
+        palette.setBrush(QPalette::Inactive, QPalette::ToolTipText, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::WindowText, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::Button, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::Light, brush2);
+        palette.setBrush(QPalette::Disabled, QPalette::Midlight, brush3);
+        palette.setBrush(QPalette::Disabled, QPalette::Dark, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::Mid, brush5);
+        palette.setBrush(QPalette::Disabled, QPalette::Text, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::BrightText, brush6);
+        palette.setBrush(QPalette::Disabled, QPalette::ButtonText, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::Shadow, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::AlternateBase, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::ToolTipBase, brush8);
+        palette.setBrush(QPalette::Disabled, QPalette::ToolTipText, brush);
+        horizontalSlider_spe_gen_part->setPalette(palette);
+        horizontalSlider_spe_gen_part->setMinimum(1);
+        horizontalSlider_spe_gen_part->setMaximum(16);
+        horizontalSlider_spe_gen_part->setPageStep(1);
+        horizontalSlider_spe_gen_part->setValue(16);
+        horizontalSlider_spe_gen_part->setOrientation(Qt::Horizontal);
+        horizontalSlider_spe_gen_part->setTickPosition(QSlider::TicksBelow);
+        horizontalSlider_spe_gen_part->setTickInterval(1);
+
+        gridLayout->addWidget(horizontalSlider_spe_gen_part, 7, 1, 1, 1);
+
         label_3 = new QLabel(QINFO);
         label_3->setObjectName(QStringLiteral("label_3"));
 
         gridLayout->addWidget(label_3, 3, 0, 1, 1);
 
-        checkBox_mortal = new QCheckBox(QINFO);
-        checkBox_mortal->setObjectName(QStringLiteral("checkBox_mortal"));
-        checkBox_mortal->setChecked(true);
-
-        gridLayout->addWidget(checkBox_mortal, 4, 0, 1, 1);
-
-        checkBox_incest = new QCheckBox(QINFO);
-        checkBox_incest->setObjectName(QStringLiteral("checkBox_incest"));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(checkBox_incest->sizePolicy().hasHeightForWidth());
-        checkBox_incest->setSizePolicy(sizePolicy1);
-
-        gridLayout->addWidget(checkBox_incest, 5, 0, 1, 1);
-
-        comboBox_mod_rep = new QComboBox(QINFO);
-        comboBox_mod_rep->setObjectName(QStringLiteral("comboBox_mod_rep"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Minimum);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(comboBox_mod_rep->sizePolicy().hasHeightForWidth());
-        comboBox_mod_rep->setSizePolicy(sizePolicy2);
-
-        gridLayout->addWidget(comboBox_mod_rep, 5, 1, 1, 1);
-
-        label = new QLabel(QINFO);
-        label->setObjectName(QStringLiteral("label"));
-        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy3);
-
-        gridLayout->addWidget(label, 1, 0, 1, 1);
-
-        doubleSpinBox_insdim = new QDoubleSpinBox(QINFO);
-        doubleSpinBox_insdim->setObjectName(QStringLiteral("doubleSpinBox_insdim"));
-        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(doubleSpinBox_insdim->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_insdim->setSizePolicy(sizePolicy4);
-        doubleSpinBox_insdim->setMinimumSize(QSize(46, 0));
-        doubleSpinBox_insdim->setMaximum(1);
-        doubleSpinBox_insdim->setSingleStep(0.01);
-        doubleSpinBox_insdim->setValue(0.1);
-
-        gridLayout->addWidget(doubleSpinBox_insdim, 6, 1, 1, 1);
-
-        comboBox = new QComboBox(QINFO);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        sizePolicy4.setHeightForWidth(comboBox->sizePolicy().hasHeightForWidth());
-        comboBox->setSizePolicy(sizePolicy4);
-        comboBox->setMinimumSize(QSize(1, 0));
-
-        gridLayout->addWidget(comboBox, 3, 1, 1, 1);
-
-        label_7 = new QLabel(QINFO);
-        label_7->setObjectName(QStringLiteral("label_7"));
-
-        gridLayout->addWidget(label_7, 6, 0, 1, 1);
-
-
-        verticalLayout->addLayout(gridLayout);
-
         pushButton_gengen = new QPushButton(QINFO);
         pushButton_gengen->setObjectName(QStringLiteral("pushButton_gengen"));
-        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(pushButton_gengen->sizePolicy().hasHeightForWidth());
-        pushButton_gengen->setSizePolicy(sizePolicy5);
+        QSizePolicy sizePolicy6(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(pushButton_gengen->sizePolicy().hasHeightForWidth());
+        pushButton_gengen->setSizePolicy(sizePolicy6);
+        pushButton_gengen->setMinimumSize(QSize(0, 10));
+        pushButton_gengen->setMaximumSize(QSize(16777215, 25));
 
-        verticalLayout->addWidget(pushButton_gengen);
+        gridLayout->addWidget(pushButton_gengen, 9, 0, 1, 1);
 
         lineEdit_selgen = new QLineEdit(QINFO);
         lineEdit_selgen->setObjectName(QStringLiteral("lineEdit_selgen"));
+        QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Ignored);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(lineEdit_selgen->sizePolicy().hasHeightForWidth());
+        lineEdit_selgen->setSizePolicy(sizePolicy7);
+        lineEdit_selgen->setMinimumSize(QSize(0, 10));
+        lineEdit_selgen->setMaximumSize(QSize(16777215, 20));
         lineEdit_selgen->setInputMethodHints(Qt::ImhDigitsOnly);
         lineEdit_selgen->setAlignment(Qt::AlignCenter);
 
-        verticalLayout->addWidget(lineEdit_selgen);
+        gridLayout->addWidget(lineEdit_selgen, 9, 1, 1, 1);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(0);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        doubleSpinBox_mutpro = new QDoubleSpinBox(QINFO);
+        doubleSpinBox_mutpro->setObjectName(QStringLiteral("doubleSpinBox_mutpro"));
+        doubleSpinBox_mutpro->setMaximum(1);
+        doubleSpinBox_mutpro->setSingleStep(0.01);
+        doubleSpinBox_mutpro->setValue(0.02);
+
+        horizontalLayout_5->addWidget(doubleSpinBox_mutpro);
+
+        doubleSpinBox_mutprospe = new QDoubleSpinBox(QINFO);
+        doubleSpinBox_mutprospe->setObjectName(QStringLiteral("doubleSpinBox_mutprospe"));
+        doubleSpinBox_mutprospe->setMaximum(1);
+        doubleSpinBox_mutprospe->setSingleStep(0.01);
+
+        horizontalLayout_5->addWidget(doubleSpinBox_mutprospe);
+
+
+        gridLayout->addLayout(horizontalLayout_5, 8, 1, 1, 1);
+
+        label_2 = new QLabel(QINFO);
+        label_2->setObjectName(QStringLiteral("label_2"));
+
+        gridLayout->addWidget(label_2, 0, 0, 1, 1);
+
+
+        verticalLayout->addLayout(gridLayout);
 
         line = new QFrame(QINFO);
         line->setObjectName(QStringLiteral("line"));
@@ -268,28 +396,28 @@ public:
 
         pushButton_start = new QPushButton(QINFO);
         pushButton_start->setObjectName(QStringLiteral("pushButton_start"));
-        QSizePolicy sizePolicy6(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(pushButton_start->sizePolicy().hasHeightForWidth());
-        pushButton_start->setSizePolicy(sizePolicy6);
+        QSizePolicy sizePolicy8(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(pushButton_start->sizePolicy().hasHeightForWidth());
+        pushButton_start->setSizePolicy(sizePolicy8);
         pushButton_start->setMinimumSize(QSize(21, 0));
         pushButton_start->setMaximumSize(QSize(40, 16777215));
         pushButton_start->setSizeIncrement(QSize(0, 0));
         pushButton_start->setBaseSize(QSize(20, 0));
-        QPalette palette;
-        QBrush brush(QColor(255, 0, 0, 255));
-        brush.setStyle(Qt::SolidPattern);
-        palette.setBrush(QPalette::Active, QPalette::Button, brush);
-        palette.setBrush(QPalette::Active, QPalette::Base, brush);
-        palette.setBrush(QPalette::Active, QPalette::Window, brush);
-        palette.setBrush(QPalette::Inactive, QPalette::Button, brush);
-        palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
-        palette.setBrush(QPalette::Inactive, QPalette::Window, brush);
-        palette.setBrush(QPalette::Disabled, QPalette::Button, brush);
-        palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
-        palette.setBrush(QPalette::Disabled, QPalette::Window, brush);
-        pushButton_start->setPalette(palette);
+        QPalette palette1;
+        QBrush brush9(QColor(255, 0, 0, 255));
+        brush9.setStyle(Qt::SolidPattern);
+        palette1.setBrush(QPalette::Active, QPalette::Button, brush9);
+        palette1.setBrush(QPalette::Active, QPalette::Base, brush9);
+        palette1.setBrush(QPalette::Active, QPalette::Window, brush9);
+        palette1.setBrush(QPalette::Inactive, QPalette::Button, brush9);
+        palette1.setBrush(QPalette::Inactive, QPalette::Base, brush9);
+        palette1.setBrush(QPalette::Inactive, QPalette::Window, brush9);
+        palette1.setBrush(QPalette::Disabled, QPalette::Button, brush9);
+        palette1.setBrush(QPalette::Disabled, QPalette::Base, brush9);
+        palette1.setBrush(QPalette::Disabled, QPalette::Window, brush9);
+        pushButton_start->setPalette(palette1);
         QFont font;
         font.setFamily(QStringLiteral("Arial Black"));
         font.setPointSize(8);
@@ -322,95 +450,6 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_4);
 
-        label_4 = new QLabel(QINFO);
-        label_4->setObjectName(QStringLiteral("label_4"));
-
-        verticalLayout->addWidget(label_4);
-
-        horizontalSlider_spe_gen_part = new QSlider(QINFO);
-        horizontalSlider_spe_gen_part->setObjectName(QStringLiteral("horizontalSlider_spe_gen_part"));
-        QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy7.setHorizontalStretch(0);
-        sizePolicy7.setVerticalStretch(0);
-        sizePolicy7.setHeightForWidth(horizontalSlider_spe_gen_part->sizePolicy().hasHeightForWidth());
-        horizontalSlider_spe_gen_part->setSizePolicy(sizePolicy7);
-        horizontalSlider_spe_gen_part->setMinimumSize(QSize(10, 10));
-        horizontalSlider_spe_gen_part->setBaseSize(QSize(0, 10));
-        QPalette palette1;
-        QBrush brush1(QColor(0, 0, 0, 255));
-        brush1.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::WindowText, brush1);
-        QBrush brush2(QColor(0, 170, 255, 255));
-        brush2.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::Button, brush2);
-        QBrush brush3(QColor(127, 213, 255, 255));
-        brush3.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::Light, brush3);
-        QBrush brush4(QColor(63, 191, 255, 255));
-        brush4.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::Midlight, brush4);
-        QBrush brush5(QColor(0, 85, 127, 255));
-        brush5.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::Dark, brush5);
-        QBrush brush6(QColor(0, 113, 170, 255));
-        brush6.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::Mid, brush6);
-        palette1.setBrush(QPalette::Active, QPalette::Text, brush1);
-        QBrush brush7(QColor(255, 255, 255, 255));
-        brush7.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::BrightText, brush7);
-        palette1.setBrush(QPalette::Active, QPalette::ButtonText, brush1);
-        palette1.setBrush(QPalette::Active, QPalette::Base, brush7);
-        palette1.setBrush(QPalette::Active, QPalette::Window, brush2);
-        palette1.setBrush(QPalette::Active, QPalette::Shadow, brush1);
-        QBrush brush8(QColor(127, 212, 255, 255));
-        brush8.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::AlternateBase, brush8);
-        QBrush brush9(QColor(255, 255, 220, 255));
-        brush9.setStyle(Qt::SolidPattern);
-        palette1.setBrush(QPalette::Active, QPalette::ToolTipBase, brush9);
-        palette1.setBrush(QPalette::Active, QPalette::ToolTipText, brush1);
-        palette1.setBrush(QPalette::Inactive, QPalette::WindowText, brush1);
-        palette1.setBrush(QPalette::Inactive, QPalette::Button, brush2);
-        palette1.setBrush(QPalette::Inactive, QPalette::Light, brush3);
-        palette1.setBrush(QPalette::Inactive, QPalette::Midlight, brush4);
-        palette1.setBrush(QPalette::Inactive, QPalette::Dark, brush5);
-        palette1.setBrush(QPalette::Inactive, QPalette::Mid, brush6);
-        palette1.setBrush(QPalette::Inactive, QPalette::Text, brush1);
-        palette1.setBrush(QPalette::Inactive, QPalette::BrightText, brush7);
-        palette1.setBrush(QPalette::Inactive, QPalette::ButtonText, brush1);
-        palette1.setBrush(QPalette::Inactive, QPalette::Base, brush7);
-        palette1.setBrush(QPalette::Inactive, QPalette::Window, brush2);
-        palette1.setBrush(QPalette::Inactive, QPalette::Shadow, brush1);
-        palette1.setBrush(QPalette::Inactive, QPalette::AlternateBase, brush8);
-        palette1.setBrush(QPalette::Inactive, QPalette::ToolTipBase, brush9);
-        palette1.setBrush(QPalette::Inactive, QPalette::ToolTipText, brush1);
-        palette1.setBrush(QPalette::Disabled, QPalette::WindowText, brush5);
-        palette1.setBrush(QPalette::Disabled, QPalette::Button, brush2);
-        palette1.setBrush(QPalette::Disabled, QPalette::Light, brush3);
-        palette1.setBrush(QPalette::Disabled, QPalette::Midlight, brush4);
-        palette1.setBrush(QPalette::Disabled, QPalette::Dark, brush5);
-        palette1.setBrush(QPalette::Disabled, QPalette::Mid, brush6);
-        palette1.setBrush(QPalette::Disabled, QPalette::Text, brush5);
-        palette1.setBrush(QPalette::Disabled, QPalette::BrightText, brush7);
-        palette1.setBrush(QPalette::Disabled, QPalette::ButtonText, brush5);
-        palette1.setBrush(QPalette::Disabled, QPalette::Base, brush2);
-        palette1.setBrush(QPalette::Disabled, QPalette::Window, brush2);
-        palette1.setBrush(QPalette::Disabled, QPalette::Shadow, brush1);
-        palette1.setBrush(QPalette::Disabled, QPalette::AlternateBase, brush2);
-        palette1.setBrush(QPalette::Disabled, QPalette::ToolTipBase, brush9);
-        palette1.setBrush(QPalette::Disabled, QPalette::ToolTipText, brush1);
-        horizontalSlider_spe_gen_part->setPalette(palette1);
-        horizontalSlider_spe_gen_part->setMinimum(1);
-        horizontalSlider_spe_gen_part->setMaximum(16);
-        horizontalSlider_spe_gen_part->setPageStep(1);
-        horizontalSlider_spe_gen_part->setValue(16);
-        horizontalSlider_spe_gen_part->setOrientation(Qt::Horizontal);
-        horizontalSlider_spe_gen_part->setTickPosition(QSlider::TicksBelow);
-        horizontalSlider_spe_gen_part->setTickInterval(1);
-
-        verticalLayout->addWidget(horizontalSlider_spe_gen_part);
-
         tableWidget_species = new QTableWidget(QINFO);
         if (tableWidget_species->columnCount() < 3)
             tableWidget_species->setColumnCount(3);
@@ -422,11 +461,11 @@ public:
         tableWidget_species->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         tableWidget_species->setObjectName(QStringLiteral("tableWidget_species"));
         tableWidget_species->setEnabled(true);
-        QSizePolicy sizePolicy8(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
-        sizePolicy8.setHeightForWidth(tableWidget_species->sizePolicy().hasHeightForWidth());
-        tableWidget_species->setSizePolicy(sizePolicy8);
+        QSizePolicy sizePolicy9(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy9.setHorizontalStretch(0);
+        sizePolicy9.setVerticalStretch(0);
+        sizePolicy9.setHeightForWidth(tableWidget_species->sizePolicy().hasHeightForWidth());
+        tableWidget_species->setSizePolicy(sizePolicy9);
         tableWidget_species->setEditTriggers(QAbstractItemView::NoEditTriggers);
         tableWidget_species->setCornerButtonEnabled(false);
         tableWidget_species->horizontalHeader()->setDefaultSectionSize(60);
@@ -477,8 +516,8 @@ public:
 
         verticalLayout->addWidget(tableWidget_cur);
 
-        verticalLayout->setStretch(8, 1);
-        verticalLayout->setStretch(9, 3);
+        verticalLayout->setStretch(4, 1);
+        verticalLayout->setStretch(5, 3);
 
         horizontalLayout->addLayout(verticalLayout);
 
@@ -492,8 +531,8 @@ public:
         gridLayout_2->setContentsMargins(-1, 0, -1, -1);
         label_fps = new QLabel(QINFO);
         label_fps->setObjectName(QStringLiteral("label_fps"));
-        sizePolicy3.setHeightForWidth(label_fps->sizePolicy().hasHeightForWidth());
-        label_fps->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(label_fps->sizePolicy().hasHeightForWidth());
+        label_fps->setSizePolicy(sizePolicy2);
         label_fps->setMinimumSize(QSize(0, 0));
         label_fps->setMaximumSize(QSize(16777215, 16777215));
         label_fps->setFrameShape(QFrame::NoFrame);
@@ -508,8 +547,8 @@ public:
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         lcdNumber_gps = new QLCDNumber(QINFO);
         lcdNumber_gps->setObjectName(QStringLiteral("lcdNumber_gps"));
-        sizePolicy2.setHeightForWidth(lcdNumber_gps->sizePolicy().hasHeightForWidth());
-        lcdNumber_gps->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(lcdNumber_gps->sizePolicy().hasHeightForWidth());
+        lcdNumber_gps->setSizePolicy(sizePolicy3);
         lcdNumber_gps->setFrameShadow(QFrame::Sunken);
         lcdNumber_gps->setMidLineWidth(1);
         lcdNumber_gps->setDigitCount(4);
@@ -519,8 +558,8 @@ public:
 
         lcdNumber_fps = new QLCDNumber(QINFO);
         lcdNumber_fps->setObjectName(QStringLiteral("lcdNumber_fps"));
-        sizePolicy2.setHeightForWidth(lcdNumber_fps->sizePolicy().hasHeightForWidth());
-        lcdNumber_fps->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(lcdNumber_fps->sizePolicy().hasHeightForWidth());
+        lcdNumber_fps->setSizePolicy(sizePolicy3);
         lcdNumber_fps->setMaximumSize(QSize(16777215, 16777215));
         lcdNumber_fps->setFrameShadow(QFrame::Sunken);
         lcdNumber_fps->setLineWidth(1);
@@ -537,8 +576,8 @@ public:
 
         lcdNumber_fila = new QLCDNumber(QINFO);
         lcdNumber_fila->setObjectName(QStringLiteral("lcdNumber_fila"));
-        sizePolicy5.setHeightForWidth(lcdNumber_fila->sizePolicy().hasHeightForWidth());
-        lcdNumber_fila->setSizePolicy(sizePolicy5);
+        sizePolicy6.setHeightForWidth(lcdNumber_fila->sizePolicy().hasHeightForWidth());
+        lcdNumber_fila->setSizePolicy(sizePolicy6);
         lcdNumber_fila->setMaximumSize(QSize(40, 16777215));
         lcdNumber_fila->setDigitCount(2);
         lcdNumber_fila->setSegmentStyle(QLCDNumber::Flat);
@@ -547,8 +586,8 @@ public:
 
         label_8 = new QLabel(QINFO);
         label_8->setObjectName(QStringLiteral("label_8"));
-        sizePolicy1.setHeightForWidth(label_8->sizePolicy().hasHeightForWidth());
-        label_8->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(label_8->sizePolicy().hasHeightForWidth());
+        label_8->setSizePolicy(sizePolicy4);
         label_8->setMaximumSize(QSize(16777215, 16777215));
         label_8->setWordWrap(false);
 
@@ -556,8 +595,8 @@ public:
 
         label_11 = new QLabel(QINFO);
         label_11->setObjectName(QStringLiteral("label_11"));
-        sizePolicy1.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
-        label_11->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(label_11->sizePolicy().hasHeightForWidth());
+        label_11->setSizePolicy(sizePolicy4);
         label_11->setMinimumSize(QSize(0, 0));
         label_11->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_11->setWordWrap(true);
@@ -566,8 +605,8 @@ public:
 
         horizontalSlider_erase = new QSlider(QINFO);
         horizontalSlider_erase->setObjectName(QStringLiteral("horizontalSlider_erase"));
-        sizePolicy1.setHeightForWidth(horizontalSlider_erase->sizePolicy().hasHeightForWidth());
-        horizontalSlider_erase->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(horizontalSlider_erase->sizePolicy().hasHeightForWidth());
+        horizontalSlider_erase->setSizePolicy(sizePolicy4);
         horizontalSlider_erase->setMaximum(255);
         horizontalSlider_erase->setValue(250);
         horizontalSlider_erase->setOrientation(Qt::Horizontal);
@@ -577,8 +616,8 @@ public:
 
         label_6 = new QLabel(QINFO);
         label_6->setObjectName(QStringLiteral("label_6"));
-        sizePolicy1.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
-        label_6->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
+        label_6->setSizePolicy(sizePolicy4);
         label_6->setMaximumSize(QSize(16777215, 16777215));
         label_6->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_6->setWordWrap(true);
@@ -587,8 +626,8 @@ public:
 
         label_10 = new QLabel(QINFO);
         label_10->setObjectName(QStringLiteral("label_10"));
-        sizePolicy1.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
-        label_10->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
+        label_10->setSizePolicy(sizePolicy4);
         label_10->setMaximumSize(QSize(16777215, 16777215));
         label_10->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_10->setWordWrap(true);
@@ -597,15 +636,15 @@ public:
 
         label_12 = new QLabel(QINFO);
         label_12->setObjectName(QStringLiteral("label_12"));
-        sizePolicy2.setHeightForWidth(label_12->sizePolicy().hasHeightForWidth());
-        label_12->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(label_12->sizePolicy().hasHeightForWidth());
+        label_12->setSizePolicy(sizePolicy3);
 
         gridLayout_2->addWidget(label_12, 0, 0, 1, 1);
 
         lcdNumber_temp = new QLCDNumber(QINFO);
         lcdNumber_temp->setObjectName(QStringLiteral("lcdNumber_temp"));
-        sizePolicy2.setHeightForWidth(lcdNumber_temp->sizePolicy().hasHeightForWidth());
-        lcdNumber_temp->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(lcdNumber_temp->sizePolicy().hasHeightForWidth());
+        lcdNumber_temp->setSizePolicy(sizePolicy3);
         lcdNumber_temp->setMinimumSize(QSize(0, 0));
         lcdNumber_temp->setSegmentStyle(QLCDNumber::Flat);
 
@@ -613,8 +652,8 @@ public:
 
         lcdNumber_tact = new QLCDNumber(QINFO);
         lcdNumber_tact->setObjectName(QStringLiteral("lcdNumber_tact"));
-        sizePolicy2.setHeightForWidth(lcdNumber_tact->sizePolicy().hasHeightForWidth());
-        lcdNumber_tact->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(lcdNumber_tact->sizePolicy().hasHeightForWidth());
+        lcdNumber_tact->setSizePolicy(sizePolicy3);
         lcdNumber_tact->setMinimumSize(QSize(0, 0));
         lcdNumber_tact->setMaximumSize(QSize(16777215, 16777215));
         lcdNumber_tact->setSmallDecimalPoint(false);
@@ -657,8 +696,8 @@ public:
 
         retranslateUi(QINFO);
 
-        comboBox_mod_rep->setCurrentIndex(2);
         comboBox->setCurrentIndex(1);
+        comboBox_mod_rep->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(QINFO);
@@ -667,17 +706,9 @@ public:
     void retranslateUi(QWidget *QINFO)
     {
         QINFO->setWindowTitle(QApplication::translate("QINFO", "QINFO", 0));
-        label_2->setText(QApplication::translate("QINFO", "quantitas specierum", 0));
-        label_3->setText(QApplication::translate("QINFO", "modus ponendi", 0));
         checkBox_mortal->setText(QApplication::translate("QINFO", "si mortales, vivunt donec", 0));
-        checkBox_incest->setText(QApplication::translate("QINFO", "incestum, modus replicandi", 0));
-        comboBox_mod_rep->clear();
-        comboBox_mod_rep->insertItems(0, QStringList()
-         << QApplication::translate("QINFO", "effectivitas", 0)
-         << QApplication::translate("QINFO", "parens casualis", 0)
-         << QApplication::translate("QINFO", "cruciamentum", 0)
-        );
-        label->setText(QApplication::translate("QINFO", "quantitas in specie", 0));
+        label_9->setText(QApplication::translate("QINFO", "mutationis probabilitas", 0));
+        label_7->setText(QApplication::translate("QINFO", "insulae dimensio partialis", 0));
         comboBox->clear();
         comboBox->insertItems(0, QStringList()
          << QApplication::translate("QINFO", "chaos", 0)
@@ -685,15 +716,24 @@ public:
          << QApplication::translate("QINFO", "rete", 0)
          << QApplication::translate("QINFO", "rete per speciem", 0)
         );
-        label_7->setText(QApplication::translate("QINFO", "insulae dimensio partialis", 0));
-        pushButton_gengen->setText(QApplication::translate("QINFO", "caudex species currentis : novum generare", 0));
+        label->setText(QApplication::translate("QINFO", "quantitas in specie", 0));
+        comboBox_mod_rep->clear();
+        comboBox_mod_rep->insertItems(0, QStringList()
+         << QApplication::translate("QINFO", "effectivitas", 0)
+         << QApplication::translate("QINFO", "parens casualis", 0)
+         << QApplication::translate("QINFO", "cruciamentum", 0)
+        );
+        checkBox_incest->setText(QApplication::translate("QINFO", "incesti, modus replicandi", 0));
+        label_4->setText(QApplication::translate("QINFO", "genomatis specierum pars", 0));
+        label_3->setText(QApplication::translate("QINFO", "modus ponendi", 0));
+        pushButton_gengen->setText(QApplication::translate("QINFO", "genea species: regenerare", 0));
+        label_2->setText(QApplication::translate("QINFO", "quantitas specierum", 0));
         pushButton_gen->setText(QApplication::translate("QINFO", "Genera", 0));
         pushButton_add->setText(QApplication::translate("QINFO", "Manu adde", 0));
         pushButton_destr->setText(QApplication::translate("QINFO", "Destrue", 0));
         pushButton_start->setText(QApplication::translate("QINFO", ">", 0));
         pushButton_import->setText(QApplication::translate("QINFO", "Importa", 0));
         pushButton_export->setText(QApplication::translate("QINFO", "Exporta", 0));
-        label_4->setText(QApplication::translate("QINFO", "genomatis specierum affecti pars", 0));
         QTableWidgetItem *___qtablewidgetitem = tableWidget_species->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("QINFO", "#", 0));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget_species->horizontalHeaderItem(1);

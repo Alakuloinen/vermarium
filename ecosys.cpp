@@ -314,7 +314,17 @@ void OECOSYS::corp_gen (CORP& p1, CORP& p2)
 		CORP nov(p1, p2);
 		CORP *ultimus = ultvid;
 		ultvid = ultvid->vic;
+
+		//ослабить и отдалить уродца, не дав невозбранно захавать всех остальных детей
+		if(nov.gen_spe!=p1.gen_spe)
+		{
+			//nov.e = nov.m/2;
+			nov.ax = 2*global_factor*rndb();
+			nov.ay = 2*global_factor*rndb();
+		}
+
 		*ultimus = nov;
+
 	}
 	else
 	{
@@ -381,13 +391,15 @@ void OECOSYS::mod_a (CORP& cur)
 		float avgdist = vis_dist; 
 		float mindist = vis_dist; 
 
-		float sui_philia = genes[SUI_PHILIA].val(&cur);
+		float max_mass = genes[MAX_MASS].val(&cur);
+
+		float sui_philia = genes[SUI_PHILIA].val(&cur) + (1 + max_mass/100);
 		float sui_phobia = genes[SUI_PHOBIA].val(&cur);
-		float opp_philia = genes[OPP_PHILIA].val(&cur);
+		float opp_philia = genes[OPP_PHILIA].val(&cur) * (1 - max_mass/100);
 		float opp_phobia = genes[OPP_PHOBIA].val(&cur);
 
 		//количество отследиваемых в поле зрения
-		int vis_qnt = genes[MAX_VIC_VIS].val(&cur);
+		int vis_qnt = genes[OPT_VIC_NUM].val(&cur);
 
 		//масса начала репродукции
 		float cur_adult_m = genes[MIN_REPRODUCT_MASS].val(&cur);
@@ -399,9 +411,14 @@ void OECOSYS::mod_a (CORP& cur)
 		//стремление к соседу своего вида, даже если он не достиг репродуктивной массы и спаривание невозможно
 		float pedophilia = genes[PAEDOPHILIA].val(&cur);
 
+		//максимальный возраст, когда невозможно спариваться
+		float virginitas = cur.phaeno_uni(TEMP_VIRGIN);
+		
+
 		//----------------------------------------------------------------------------
 		//поиск ближайших
-		for(auto j=corp.begin(); j!=corp.end(); j++)
+		CORP* fin = &corp.back();
+		for(CORP* j=&corp.front(); j<=fin; j++)
 		{
 			//исключить:
 			if(	 j->est		 &&		// совсем мертвых
@@ -441,7 +458,7 @@ void OECOSYS::mod_a (CORP& cur)
 						//если партнеры достаточно массивны для деторождения и не совпадают генами (нет инцесту!)
 						if(dist<copu_dist)
 						{
-							if(cur_adult && vic_adult && ((!incestus)?(cur.gen_ind != vic.gen_ind):true))
+							if(cur_adult && vic_adult && cur.v>virginitas)
 							{
 								//добавить текущий в планы
 								cur.vic = &vic;
@@ -481,10 +498,19 @@ void OECOSYS::mod_a (CORP& cur)
 						if(dist < crit_dist )
 						{
 							//добавить текущий в планы
-							if(cur.e > vic.e)
+							if(cur.e > vic.e && cur.m < max_mass)
 							{
 								cur.vic = &vic;
 								return;
+							}
+							else
+							{
+								//экстремальное сближение порождает отталкивание
+								rax = afactor * dx;
+								ray = afactor * dy;
+
+								//переприсвоить расстояние, чтобы данный случай не подпадал под концентрацию на одной цели
+								dist = 1000;
 							}
 						}
 						//антагонист недалеко, главное исключить уже мёртвых
@@ -567,8 +593,8 @@ void OECOSYS::mod_a (CORP& cur)
 		float inquiet = ( 1 + abs(nvic-vis_qnt) ) / (nvic + vis_qnt);
 
 		//праздношатание в произвольную сторону, зависит от целей в жизни
-		double randfactor = 	(inquiet/(mag+0.1)) *cur.phaeno_uni(STOCH_MOT_INTENT)
-								+ 10.0		*cur.phaeno_uni(STOCH_MOT_BASIS);
+		double randfactor = 	(inquiet + 1/(mag+0.1)) * (0.1 + cur.phaeno_uni(STOCH_MOT_INTENT));
+								//+ 10.0		*cur.phaeno_uni(TEMP_VIRGIN);
 
 		randfactor *= global_factor;
 
@@ -595,10 +621,14 @@ void OECOSYS::mod_s (CORP& cur)
 			//процедура спаривания со стороны текущего
 			if(cur.vic->gen_spe == cur.gen_spe)
 			{
-				float cur_adult = genes[MIN_REPRODUCT_MASS].val(&cur);
-				float vic_adult = genes[MIN_REPRODUCT_MASS].val(cur.vic);
-				if(cur.m > cur_adult && cur.vic->m > vic_adult)
-					corp_gen(cur, *cur.vic);
+				if((!incestus) ? (cur.vic->gen_ind != cur.gen_ind) : true)
+				{
+					float cur_adult = genes[MIN_REPRODUCT_MASS].val(&cur);
+					float vic_adult = genes[MIN_REPRODUCT_MASS].val(cur.vic);
+
+					if(cur.m > cur_adult && cur.vic->m > vic_adult)
+						corp_gen(cur, *cur.vic);
+				}
 			}
 			//процедура поедания
 			else
@@ -607,6 +637,8 @@ void OECOSYS::mod_s (CORP& cur)
 				cur.devor(*cur.vic, crit_dist);
 			}
 		}
+
+		//щчистить связи назначенные для этого шага
 		cur.vic->vic = 0;
 		cur.vic = 0;
 	}

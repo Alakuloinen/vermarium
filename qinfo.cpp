@@ -16,9 +16,9 @@ void OECOSYS::init_gen()
 	add_gen(QT_TR_NOOP("sociophobia"),			SUI_PHOBIA,			0,	1);
 	add_gen(QT_TR_NOOP("aggressio"),			OPP_PHILIA,			0,	1);
 	add_gen(QT_TR_NOOP("fuga"),					OPP_PHOBIA,			0,	1);
-	add_gen(QT_TR_NOOP("vis errandi soli"),		STOCH_MOT_INTENT,	0,	1);
-	add_gen(QT_TR_NOOP("vis errandi publici"),	STOCH_MOT_BASIS,	0,	1);
-	add_gen(QT_TR_NOOP("vicini optimi"),		MAX_VIC_VIS,		2,	128.0 );
+	add_gen(QT_TR_NOOP("vis errandi"),			STOCH_MOT_INTENT,	0,	1);
+	add_gen(QT_TR_NOOP("aetas virginis"),		TEMP_VIRGIN,		0.1, 3);
+	add_gen(QT_TR_NOOP("vicini optimi"),		OPT_VIC_NUM,		2,	128.0 );
 	add_gen(QT_TR_NOOP("massa reproductiva"),	MIN_REPRODUCT_MASS,	0.6,4.0 );
 	add_gen(QT_TR_NOOP("sphaera visionis"),		MAX_DIST_VIS,		30, 200 );
 	add_gen(QT_TR_NOOP("sphaera unae praedae"),	MAX_DIST_ACT,		4,	20 );
@@ -26,6 +26,7 @@ void OECOSYS::init_gen()
 	add_gen(QT_TR_NOOP("sphaera copulandi"),	MAX_DIST_FUCK,		2,	3 );
 	add_gen(QT_TR_NOOP("paedophilia"),			PAEDOPHILIA,		0,	1 );
 	add_gen(QT_TR_NOOP("necrophagia"),			NECROPHAGIA,		0,	1 );
+	add_gen(QT_TR_NOOP("massa maxima"),			MAX_MASS,			10,	100 );
 	add_gen(QT_TR_NOOP("longaevitas"),			TEMPUS_VITAE,		0,	1 );
 }
 
@@ -56,7 +57,9 @@ QINFO::QINFO(QWidget *parent)
 	connect(ui.pushButton_import, SIGNAL(clicked()), this, SLOT(relege()));
 	connect(ui.pushButton_export, SIGNAL(clicked()), this, SLOT(conserva()));
 	connect(ui.horizontalSlider_spe_gen_part, SIGNAL(valueChanged(int)), this, SLOT(spe_gen_part(int)));
+	connect(ui.doubleSpinBox_mutpro, SIGNAL(valueChanged(double)), this, SLOT(mut_pro(double)));
     connect(ui.pushButton_gengen, SIGNAL(clicked()), this, SLOT(gen_stoch_gen()));
+	connect(ui.doubleSpinBox_mutprospe, SIGNAL(valueChanged(double)), this, SLOT(spec_mut_pro(double)));
 
 	connect(ui.openGLWidget, SIGNAL(corp_sel()), this, SLOT(sel_index()));
 
@@ -95,8 +98,9 @@ void QINFO::prepar_info()
 	ui.lcdNumber_fila->display(ui.openGLWidget->Fila()->n());					// показать число потоков
 
 	//заполнение и раскраска таблицы видов
-	for(int i=0; i<ui.openGLWidget->nc->species.size(); i++)
+	for(auto i=0; i<ui.openGLWidget->nc->species.size(); i++)
 	{
+		ui.tableWidget_species->setRowHeight(i,20);
 		ui.tableWidget_species->setItem(i,0,new QTableWidgetItem);
 		ui.tableWidget_species->setCellWidget(i,1,new QProgressBar);
 		ui.tableWidget_species->setCellWidget(i,2,new QProgressBar);
@@ -270,15 +274,21 @@ void QINFO::spec_add_quer_resp(float x, float y)
 //=========================================================================================================
 void QINFO::gen()
 {
+	//создать с нуля
 	if(modus == NUL)
 		ui.openGLWidget->gen(	ui.spinBox_n->value(),
 								ui.spinBox_nsp->value(),
 								ui.comboBox->currentIndex(),
 								ui.checkBox_incest->isChecked(),
 								ui.comboBox_mod_rep->currentIndex());
-	else
-	{	pau();	ui.openGLWidget->regen();	}
 
+	//восстановить
+	else {	pau();	ui.openGLWidget->regen();	}
+
+	//вероятность мутации
+	CORP::mutationFreq(ui.doubleSpinBox_mutpro->value());
+
+	//время жизни
 	if(ui.checkBox_mortal->isChecked())		ui.openGLWidget->nc->longaevitas(ui.spinBox_vl->value());
 	else									ui.openGLWidget->nc->longaevitas(0);
 
@@ -314,6 +324,9 @@ void QINFO::gen_stoch_gen()
 	//произвольный ген
 	ui.lineEdit_selgen->setText(QString::number(stoch()));
 }
+
+void QINFO::mut_pro(double val)		{	CORP::mutationFreq(val);	}
+void QINFO::spec_mut_pro(double val)	{	CORP::mutSpecies(val);		}
 
 //=========================================================================================================
 //ежесекундно отображать статистику
@@ -403,7 +416,7 @@ void QINFO::sel_index()
 		//обобразить фенотип выделенного
 		gen_phaen(ui.openGLWidget->nc->selectum());
 
-		ui.tableWidget_species->selectRow(ui.openGLWidget->nc->sel_species());
+		//ui.tableWidget_species->selectRow(ui.openGLWidget->nc->sel_species());
 	}
 }
 
@@ -471,6 +484,9 @@ void QINFO::relege()
 		ui.openGLWidget->import(ba);
 
 		remod(PND);
+
+		//вероятность мутации
+		CORP::mutationFreq(ui.doubleSpinBox_mutpro->value());
 
 		//вывести сохраненное из файла время жизни
 		ui.spinBox_vl->setValue(ui.openGLWidget->nc->longaevitas());

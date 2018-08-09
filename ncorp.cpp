@@ -3,7 +3,7 @@
 #include <limits>
 #include <deque>
 
-
+//быстрый корень - стырено
 static unsigned usqrt4(unsigned val)
 {
     unsigned a, b;
@@ -28,6 +28,9 @@ CORP::MODUS_REPLICANDI CORP::modus_replicandi = CORP::CRUCI;
 
 // вероятность случайной мутации
 float CORP::mutationis_probabilitas = 0.01;
+
+// мутировать также и виды
+float CORP::species_mutatio = 0;				
 
 ///////////////////////////////////////////////////////
 
@@ -101,23 +104,38 @@ CORP::CORP( CORP& parent1, CORP& parent2)
 	bool casus = (rand() > rand());
 	for(GENE i=0; i<N_GENES; i++)
 	{
-		GENE g;
 		switch(modus_replicandi)
 		{
 			case EFFIC: casus = (parent1.effic() > parent2.effic());	break;		//абстрактная эффективность
 			case CASUAL: casus = casus;									break;		//случайный из пары родителей
 			case CRUCI: casus = (rand() > rand());						break;		//кроссинговер
 		}
+
+		GENE g, rna;
 		
 		//взятие гена с родителей
 		g = casus	? parent1.gen_ind : parent2.gen_ind;
-		GENE rna = synth (g, i*4+3, i*4);
+		rna = synth (g, i*4+3, i*4);
 
 		//случайная мутация
-		if(rand() < mutationFreq()*RAND_MAX) rna = rna + 2*rndb();
+		if(rand()+1 < mutationFreq()*RAND_MAX) rna = rna + 2*rndb();
 
 		//укладка гена
 		gen_ind = gen_ind | (rna<<(i*4));
+
+		///////////////////////////////////
+		// экспериментальная фича - мутация гена вида
+		///////////////////////////////////
+
+		//взятие гена с родителей
+		g = parent1.gen_spe;
+		rna = synth (g, i*4+3, i*4);
+
+		//случайная мутация
+		if(rand()+1 < species_mutatio*RAND_MAX) rna = rna + 2*rndb();
+
+		//укладка гена
+		gen_spe = gen_spe | (rna<<(i*4));
 	}
 
 	//позиция
@@ -132,6 +150,7 @@ CORP::CORP( CORP& parent1, CORP& parent2)
 	m = (parent1.m + parent2.m)/2;
 	parent1.m/=2; parent2.m/=2;
 	e = m;
+
 
 	//эффективность существования
 	v = 0;			// время жизни

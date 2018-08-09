@@ -32,6 +32,8 @@ public slots:
 
 	//перенастроить вклад генов по ползунку
 	void spe_gen_part(int);
+	void mut_pro(double);
+	void spec_mut_pro(double);
 
 	//отобразить параметры выделеннного
 	void sel_index();

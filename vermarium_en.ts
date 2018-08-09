@@ -33,13 +33,18 @@
     </message>
     <message>
         <location filename="qinfo.cpp" line="19"/>
-        <source>vis errandi soli</source>
-        <translation>roaming alone</translation>
+        <source>vis errandi</source>
+        <oldsource>vis errandi soli</oldsource>
+        <translation>random roaming</translation>
+    </message>
+    <message>
+        <source>vis errandi publici</source>
+        <translation type="vanished">roaming in crowd</translation>
     </message>
     <message>
         <location filename="qinfo.cpp" line="20"/>
-        <source>vis errandi publici</source>
-        <translation>roaming in crowd</translation>
+        <source>aetas virginis</source>
+        <translation>virginity age</translation>
     </message>
     <message>
         <location filename="qinfo.cpp" line="21"/>
@@ -85,6 +90,11 @@
     </message>
     <message>
         <location filename="qinfo.cpp" line="29"/>
+        <source>massa maxima</source>
+        <translation>maximal mass</translation>
+    </message>
+    <message>
+        <location filename="qinfo.cpp" line="30"/>
         <source>longaevitas</source>
         <translation>longevity</translation>
     </message>
@@ -101,134 +111,146 @@
         <translation type="obsolete">number of beings within species</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="155"/>
+        <location filename="qinfo.ui" line="180"/>
         <source>effectivitas</source>
         <translation>efficiency</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="160"/>
+        <location filename="qinfo.ui" line="185"/>
         <source>parens casualis</source>
         <translation>random parent</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="165"/>
+        <location filename="qinfo.ui" line="190"/>
         <source>cruciamentum</source>
         <translation>crossingover</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="138"/>
         <source>incestum, modus replicandi</source>
-        <translation>incest, replication mode</translation>
+        <translation type="vanished">incest, replication mode</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="122"/>
+        <location filename="qinfo.ui" line="94"/>
         <source>si mortales, vivunt donec</source>
         <translation>mortal, living about</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="115"/>
+        <location filename="qinfo.ui" line="715"/>
         <source>modus ponendi</source>
         <translation>scattering mode</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="227"/>
+        <location filename="qinfo.ui" line="134"/>
         <source>chaos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="232"/>
+        <location filename="qinfo.ui" line="104"/>
+        <source>mutationis probabilitas</source>
+        <translation>mutation probability</translation>
+    </message>
+    <message>
+        <location filename="qinfo.ui" line="139"/>
         <source>insulae</source>
         <translation>clumps</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="237"/>
+        <location filename="qinfo.ui" line="144"/>
         <source>rete</source>
         <translation>grid</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="242"/>
+        <location filename="qinfo.ui" line="149"/>
         <source>rete per speciem</source>
         <translation>grid by species</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="69"/>
+        <location filename="qinfo.ui" line="204"/>
+        <source>incesti, modus replicandi</source>
+        <translation>incest, replication mode</translation>
+    </message>
+    <message>
+        <location filename="qinfo.ui" line="250"/>
+        <source>genomatis specierum pars</source>
+        <translation>species genes influence</translation>
+    </message>
+    <message>
+        <location filename="qinfo.ui" line="805"/>
         <source>quantitas specierum</source>
         <translation>number of species</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="179"/>
+        <location filename="qinfo.ui" line="163"/>
         <source>quantitas in specie</source>
-        <translation>number of beings of this species</translation>
+        <translation type="unfinished">population of each species</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="250"/>
+        <location filename="qinfo.ui" line="111"/>
         <source>insulae dimensio partialis</source>
         <translation>relative clump size</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="265"/>
         <source>caudex species currentis : novum generare</source>
         <oldsource>caudex species casualis</oldsource>
-        <translation>current species genome: generate new</translation>
+        <translation type="vanished">current species genome: generate new</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="297"/>
-        <location filename="qinfo.cpp" line="133"/>
-        <location filename="qinfo.cpp" line="189"/>
+        <location filename="qinfo.ui" line="829"/>
+        <location filename="qinfo.cpp" line="130"/>
+        <location filename="qinfo.cpp" line="190"/>
         <source>Genera</source>
         <translation>Generate</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="304"/>
-        <location filename="qinfo.cpp" line="121"/>
+        <location filename="qinfo.ui" line="836"/>
+        <location filename="qinfo.cpp" line="117"/>
         <source>Manu adde</source>
         <oldsource>Adde manu</oldsource>
         <translation>Manual add</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="314"/>
+        <location filename="qinfo.ui" line="846"/>
         <source>Destrue</source>
         <translation>Destroy</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="453"/>
+        <location filename="qinfo.ui" line="985"/>
         <source>&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="476"/>
+        <location filename="qinfo.ui" line="1008"/>
         <source>Importa</source>
-        <translation type="unfinished"></translation>
+        <translation>Import</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="483"/>
+        <location filename="qinfo.ui" line="1015"/>
         <source>Exporta</source>
-        <translation type="unfinished"></translation>
+        <translation>Export</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="492"/>
         <source>genomatis specierum affecti pars</source>
-        <translation>species genome influence</translation>
+        <translation type="vanished">species genome influence</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="988"/>
+        <location filename="qinfo.ui" line="1055"/>
         <source>#</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="993"/>
+        <location filename="qinfo.ui" line="1060"/>
         <source>populatio</source>
         <translation type="unfinished">population</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="998"/>
-        <location filename="qinfo.ui" line="1050"/>
+        <location filename="qinfo.ui" line="1065"/>
+        <location filename="qinfo.ui" line="1117"/>
         <source>massa</source>
         <translation>mass</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1045"/>
-        <location filename="qinfo.ui" line="1449"/>
+        <location filename="qinfo.ui" line="1112"/>
+        <location filename="qinfo.ui" line="1516"/>
         <source>generatio</source>
         <translation>generation</translation>
     </message>
@@ -237,108 +259,119 @@
         <translation type="vanished">stamina</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1060"/>
+        <location filename="qinfo.ui" line="1127"/>
         <source>aetas</source>
         <translation>age</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1065"/>
+        <location filename="qinfo.ui" line="1132"/>
         <source>in selecto</source>
         <translation>in selected</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1070"/>
+        <location filename="qinfo.ui" line="1137"/>
         <source>vivus</source>
         <translation>alive</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1075"/>
-        <location filename="qinfo.ui" line="1080"/>
-        <location filename="qinfo.ui" line="1085"/>
+        <location filename="qinfo.ui" line="1142"/>
+        <location filename="qinfo.ui" line="1147"/>
+        <location filename="qinfo.ui" line="1152"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1129"/>
+        <location filename="qinfo.ui" line="1196"/>
         <source>gradus/picturae per secundam</source>
         <translation type="unfinished">calculations/frames per seconds</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1239"/>
+        <location filename="qinfo.ui" line="1306"/>
         <source>attenuatio evanescendi</source>
         <translation>fading weaking</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1261"/>
+        <location filename="qinfo.ui" line="1328"/>
         <source>secundae elapsae</source>
         <translation>seconds elapsed</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1308"/>
+        <location filename="qinfo.ui" line="1375"/>
         <source>gressus currens</source>
         <translation>current step</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1333"/>
+        <location filename="qinfo.ui" line="1400"/>
         <source>processi</source>
         <translation>threads</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1352"/>
+        <location filename="qinfo.ui" line="1419"/>
         <source>substratum / modus colorandi</source>
         <translation>background / colouring mode</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1415"/>
+        <location filename="qinfo.ui" line="1482"/>
         <source>nigrum</source>
         <translation>black</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1420"/>
+        <location filename="qinfo.ui" line="1487"/>
         <source>album</source>
         <translation>white</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1425"/>
+        <location filename="qinfo.ui" line="1492"/>
         <source>cinereum</source>
         <translation>grey</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1434"/>
+        <location filename="qinfo.ui" line="1501"/>
         <source>species</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1055"/>
-        <location filename="qinfo.ui" line="1439"/>
+        <location filename="qinfo.ui" line="1122"/>
+        <location filename="qinfo.ui" line="1506"/>
         <source>stamina</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1444"/>
+        <location filename="qinfo.ui" line="740"/>
+        <source>genea species: regenerare</source>
+        <translation>species gene: get new</translation>
+    </message>
+    <message>
+        <location filename="qinfo.ui" line="1511"/>
         <source>vitae longitudo</source>
         <translation>age</translation>
     </message>
     <message>
-        <location filename="qinfo.ui" line="1466"/>
+        <location filename="qinfo.ui" line="1533"/>
         <source>quantitas vivorum</source>
         <translation>number of beings alive</translation>
     </message>
     <message>
-        <location filename="qinfo.cpp" line="152"/>
+        <location filename="qinfo.cpp" line="151"/>
         <location filename="qinfo.cpp" line="172"/>
         <source>Restaura</source>
         <translation>Restore</translation>
     </message>
     <message>
-        <location filename="qinfo.cpp" line="186"/>
+        <location filename="qinfo.cpp" line="185"/>
         <source>Fini addendum</source>
         <translation>Finish adding</translation>
     </message>
     <message>
-        <location filename="qinfo.cpp" line="362"/>
+        <location filename="qinfo.cpp" line="376"/>
         <source>mortuus</source>
         <translation>dead</translation>
+    </message>
+    <message>
+        <location filename="qinfo.cpp" line="475"/>
+        <location filename="qinfo.cpp" line="502"/>
+        <source>Oecosystema (*.huy)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

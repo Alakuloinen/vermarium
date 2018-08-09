@@ -25,8 +25,8 @@ enum PHAENO
 	OPP_PHILIA,
 	OPP_PHOBIA,					// сила сближения и удаления к чужим
 	STOCH_MOT_INTENT,				// коэффициент случайного движения
-	STOCH_MOT_BASIS,				// уменьшение случайного движения при соседях
-	MAX_VIC_VIS,					// максимум соседей любого вида, которых может учитывать
+	TEMP_VIRGIN,				// уменьшение случайного движения при соседях
+	OPT_VIC_NUM,					// оптимальное число соседей
 	MIN_REPRODUCT_MASS,				// минимальная общая массивность, с которой влкючается половое поведение
 	MAX_DIST_VIS,				// расстояние видимости
 	MAX_DIST_ACT,				// расстояние видимости
@@ -36,6 +36,8 @@ enum PHAENO
 
 	PAEDOPHILIA,					// приближение к своим, даже если они еще не достигли репродуктивной массы
 	NECROPHAGIA,					// падальщичество
+
+	MAX_MASS,						// максимальная масса
 
 	TEMPUS_VITAE,					// время жизни
 
@@ -79,6 +81,7 @@ struct CORP
 	static MODUS_REPLICANDI modus_replicandi;	// способ передачи генов от родителя к потомку
 	static unsigned char spe_gen_part;			// вклад видовой части генов
 	static float mutationis_probabilitas;		// вероятность случайной мутации
+	static float species_mutatio;				// мутировать также и виды
 
 	/////////////////////////////////////////////
 
@@ -122,13 +125,17 @@ struct CORP
 	//убить и съесть
 	void devor(CORP& vic, float crit_dist)
 	{
-		float part = 1.5 + (float)rand()/RAND_MAX;
-		if(part>1.0) part = 1.0;
+		//съесть зараз можно не больше своей массы
+		float part = m/vic.m;
+		if(part>0.9) part = 1.0;
 
-		m += vic.m * part; 
+		m += vic.m*part; 
+		
+		//если съел труп, энергия сразу в максимум, иначе может резко опуститься
+		e = e - vic.e;
 
-		e += vic.e*(1.0-crit_dist/4.0);	// чем дальше тянулся, тем меньше получил
-		vic.e = 0;						// убить душу, но возможно оставить тело
+		// убить душу, но возможно оставить тело
+		vic.e = 0;						
 		vic.erase();
 		vic.m -= vic.m*part;
 		ndevor++;
@@ -163,6 +170,10 @@ struct CORP
 	// вероятность случайной мутации
 	static const float				mutationFreq ()							{ return mutationis_probabilitas; }
 	static void						mutationFreq (float val)				{  mutationis_probabilitas = (val>=0.0&&val<=1.0)?val:0.01; }
+
+	// мутировать также и виды
+	static const float				mutSpecies ()							{ return species_mutatio; }
+	static void						mutSpecies (float val)					{  species_mutatio = (val>=0.0&&val<=1.0)?val:0.01; }
 
 	//синтезировать значение гена
 	static unsigned int synth (GENE g, int l, int r ) { return (g>>r) & (~(0xffffffff<<(l-r+1))); }
@@ -328,7 +339,7 @@ public:
 	CORP* selectum() const { return sel; }
 	void deselecta() { sel = 0; }
 	bool selecta(float x, float y);
-	int sel_species() { if(!sel) return -1; for(int i=0; i<species.size(); i++) if(species[i].g == sel->gen_spe) return i; }
+//	int sel_species() { if(!sel) return -1; for(int i=0; i<species.size(); i++) if(species[i].g == sel->gen_spe) return i; }
 
 	///////////////////////////////////////////////////////
 
