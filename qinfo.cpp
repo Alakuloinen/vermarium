@@ -2,6 +2,7 @@
 #include "ncorp.h"
 #include "filum.h"
 #include <QTimer>
+#include <QTime>
 #include <QProgressBar>
 #include <QFileDialog>
 #include <omp.h>
@@ -37,6 +38,7 @@ QINFO::QINFO(QWidget *parent)
 
 	ui.setupUi(this);
 
+	qsrand(QTime::currentTime().second());
 
 	ui.tableWidget_cur->hide();
 	for(int i=0;i<N_GENES;i++)
@@ -92,20 +94,23 @@ QINFO::QINFO(QWidget *parent)
 //=========================================================================================================
 void QINFO::prepar_info()
 {
+	ui.tableWidget_species->setUpdatesEnabled(false);
 	ui.tableWidget_species->clearContents();
 	ui.tableWidget_species->setRowCount (ui.openGLWidget->nc->species.size());	// количество строк под виды
-	ui.lcdNumber_tact->display(0);												// обнулить число отсчитанных тактов
-	ui.lcdNumber_fila->display(ui.openGLWidget->Fila()->n());					// показать число потоков
 
 	//заполнение и раскраска таблицы видов
-	for(auto i=0; i<ui.openGLWidget->nc->species.size(); i++)
+	int i = 0;
+	for(auto s=ui.openGLWidget->nc->species.begin(); s!=ui.openGLWidget->nc->species.end(); s++, i++)
 	{
 		ui.tableWidget_species->setRowHeight(i,20);
 		ui.tableWidget_species->setItem(i,0,new QTableWidgetItem);
 		ui.tableWidget_species->setCellWidget(i,1,new QProgressBar);
 		ui.tableWidget_species->setCellWidget(i,2,new QProgressBar);
-		ui.tableWidget_species->item(i,0)->setBackgroundColor(ui.openGLWidget->genchroma(ui.openGLWidget->nc->species[i].g));
+		ui.tableWidget_species->item(i,0)->setBackgroundColor(ui.openGLWidget->genchroma(s->g));
 	}
+	ui.tableWidget_species->setUpdatesEnabled(true);
+
+	ui.lcdNumber_fila->display(ui.openGLWidget->Fila()->n());					// показать число потоков
 	mon_info();
 }
 
@@ -142,8 +147,8 @@ void QINFO::remod ( MODUS m)
 
 	//экосистема создана, но остановлена/не запущена
 	case PND:
+		ui.pushButton_add		-> setEnabled(true);		// кнопка добавить в ручную
 		ui.pushButton_destr		-> setEnabled(true);		// кнопка уничтожить
-		ui.pushButton_add		-> setEnabled(false);		// кнопка добавить в ручную
 		ui.pushButton_start		-> setEnabled(true);		// кнопка пуск/стоп
 		ui.pushButton_start		-> setChecked(false);		// кнопка пуск/стоп
 		ui.pushButton_start		-> setText(">");			// кнопка пуск/стоп
@@ -160,6 +165,7 @@ void QINFO::remod ( MODUS m)
 
 		//если переход с нуля, то есть создание экосистемы
 		if(modus == NUL) prepar_info();
+		ui.lcdNumber_tact->display(0);												// обнулить число отсчитанных тактов
 		break;
 
 	//экосистема в процессе выполнения
@@ -244,7 +250,7 @@ void QINFO::add_mod()
 	else
 	{
 		//начинать добавление можно только с чистого листа
-		if(modus == NUL)
+		if(modus == NUL || modus == PND)
 		{
 			remod(ADD);
 			ui.openGLWidget->add_mod(true);
@@ -333,37 +339,46 @@ void QINFO::spec_mut_pro(double val)	{	CORP::mutSpecies(val);		}
 //=========================================================================================================
 void QINFO::mon_info()
 {
+	static int cunt = 0;
+
 	if(ui.openGLWidget->nc)
 	{
 		//предрасчитать статистику
 		ui.openGLWidget->nc->calcul();
+		
+		if(ui.tableWidget_species->rowCount() != ui.openGLWidget->nc->species.size()) prepar_info();
 
-		for(int i=0; i<ui.openGLWidget->nc->species.size(); i++)
+		ui.tableWidget_species->setUpdatesEnabled(false);
+		int i = 0;
+		for(auto s=ui.openGLWidget->nc->species.begin(); s!=ui.openGLWidget->nc->species.end(); s++, i++)
 		{
 			//вывести число
-			ui.tableWidget_species->item(i,0)->setText( QString::number(ui.openGLWidget->nc->species[i].qnt) );
+			ui.tableWidget_species->item(i,0)->setText( QString::number(s->qnt) );
 
 			//покрасить
-			ui.tableWidget_species->item(i,0)->setBackgroundColor(ui.openGLWidget->genchroma(ui.openGLWidget->nc->species[i].g));
+			ui.tableWidget_species->item(i,0)->setBackgroundColor(ui.openGLWidget->genchroma(s->g));
 
 			//вывести соотношение
 			QProgressBar* pb = (QProgressBar*)ui.tableWidget_species->cellWidget(i,1);
 			pb->setMaximum(ui.openGLWidget->nc->populatio());
-			pb->setValue(ui.openGLWidget->nc->species[i].qnt);
+			pb->setValue(s->qnt);
 
-			double ratio = ui.openGLWidget->nc->species[i].m/ui.openGLWidget->nc->biomassa();
+			double ratio = s->m/ui.openGLWidget->nc->biomassa();
 			pb = (QProgressBar*)ui.tableWidget_species->cellWidget(i,2);
 			pb->setMaximum(1000);
 			pb->setValue((int)(1000*ratio));
-		}
 
-		//динамически отображить
+			//найден исчезнувший - сообщить, чтоб удалили из списка
+			if(s->qnt == 0) s->qnt = -1;
+		}
+		ui.tableWidget_species->setUpdatesEnabled(true);
+
+
+		//всякие параметры
 		ui.lcdNumber_n->display(ui.openGLWidget->nc->populatio());
 		ui.lcdNumber_fps->display((int)ui.openGLWidget->fps*2);
 		ui.lcdNumber_gps->display((int)(ui.openGLWidget->nc->gressus() - tacta)*2);
 		ui.lcdNumber_tact->display((int)ui.openGLWidget->nc->gressus());
-		ui.openGLWidget->fps = 0;
-		tacta = (int)ui.openGLWidget->nc->gressus();
 		ui.lcdNumber_temp->display((double)ui.openGLWidget->Fila()->tsec()*0.001);
 
 		//отображать параметры выделенного, которые меняются со временем
@@ -376,7 +391,11 @@ void QINFO::mon_info()
 		else ui.tableWidget_cur->item(0,0)->setText(tr("mortuus"));
 
 		//ui.spinBox_nsp->setValue(ui.openGLWidget->nc->dt);
+		ui.openGLWidget->fps = 0;
+		tacta = (int)ui.openGLWidget->nc->gressus();
 	}
+
+	cunt++;
 }
 
 //=========================================================================================================

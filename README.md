@@ -35,13 +35,14 @@ So the goal of the project evolved into reaching an addictive visual drama inste
 There are no sophisticaed models delimiting possibility of hybridisation between two random creatures, no selfish genes gaining proper complexes for themselves, anyway it's hardly demonstrated in colored real-time pixels.
 The main focus of the program is thus showing a competition between differently skilled species in a form of an epic worm battle. 
 Still there is a possibility to tune the factor individual genes affect the phenotype yielding fuzzy species where a true evolution
-of individuals occurs, but this mode is less spectacular and more unstable as the range of possibilities is much lower than the range of real objects.
+of individuals occurs, but this mode is less spectacular and more unstable as the range of possibilities is much higher than the range of real objects.
 
-Recent updates introduce a new feature, a species mutation probability. Making it non zero causes some children be born with slightly different species genes.
+A new feature, a species mutation probability is finally introduced. Making it non zero causes some children be born with slightly different species genes.
 Such mutants can easily eat up all their siblings as well as parents, but they are usually alone, unable to mate with anybody.
 It doesn't mean they are doomed and useless.
-The genes are discrete, any casual mutation is indeed an increment or decrement of the gene, so the formation of two identical mutants is rather possible.
+The genes are discrete, any casual mutation is actually an increment or decrement of some gene, so a birth of two identical mutants is rather possible.
 Leaving the simulation for an hour you risk to find none of the initial species, but some unknown forms of life.
+It's recommended to keep this parameter low enough to prevent overall chaos and to reduce data updated in the species table
 
 
 ## Implementation
@@ -54,4 +55,4 @@ The GUI is written using Qt 5+ including Qt OpenGL widget. Beings are represente
 
 The user can select any creature by mouse clicking close to it and observe its individual phenotype parameters as well as its species genotype in form of a number which actually says nothing but can be saved and reused.
 
-Calculations are accelerated by a custom and hardly optimal QThread-based thread manager, still making a significant increase in speed comparing to asingle-threaded version. There is also an OpenMP version of the routine but it's either not optimized or simply useless in such a short timesteps since the only thing it speeds up is the CPU cooler.
+Calculations are accelerated by a custom and hardly optimal QThread-based thread manager, still making a significant increase in speed comparing to asingle-threaded version. There is also an OpenMP version of the routine but either I do it wrong or it's simply useless in such a short timesteps since the only thing it speeds up is the CPU cooler.

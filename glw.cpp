@@ -19,9 +19,6 @@ GLW::GLW(QWidget *parent)
 	ui.setupUi(this);
     setAutoFillBackground(false);
 
-	QTime tid = QTime::currentTime();
-	qsrand(tid.second());
-
 	//таймер для синхронной отрисовки
     timer = new QTimer(this);
    connect(timer, &QTimer::timeout, this, &GLW::animate);
@@ -111,12 +108,16 @@ QColor GLW::gradient (float val, float min, float max)
 void GLW::add_mod(bool val)
 { 
 	//переход в режим ручного добавления - породить пустую
-	if(val)	gen(0,0,0,true, 0);
+	if(val)
+	{
+		if(!nc)
+			gen(0,0,0,true, 0);
+	}
 
 	//переход в обычный режим
 	else
 	{
-		//если зав ремя режима создано что-то
+		//если за время режима создано что-то
 		if(nc->n()>0)
 		{
 			//породить резервную копию текущей экосистемы

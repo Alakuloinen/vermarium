@@ -1,6 +1,18 @@
 #include <sstream>
 #include "ncorp.h"
 
+//быстрый корень - стырено
+static unsigned usqrt4(unsigned val)
+{
+    unsigned a, b;
+    if (val < 2) return val; /* avoid div/0 */
+    a = 1255;       
+    b = val / a; a = (a+b) /2;
+    b = val / a; a = (a+b) /2;
+    b = val / a; a = (a+b) /2;
+    b = val / a; a = (a+b) /2;
+    return a;
+}
 
 //=========================================================================================================
 //конструктор по ограничительному прямоугольнику
@@ -79,15 +91,7 @@ OECOSYS::OECOSYS(std::string arch)
 	unsigned short _ultvid;
 	iss.read((char*)&_ultvid,sizeof(unsigned short));
 
-	//виды
 	unsigned short g;
-	iss.read((char*)&g,sizeof(unsigned short));
-	for(int i=0;i<g;i++)
-	{
-		SPE_STAT ss;
-		iss.read((char*)&ss, sizeof(SPE_STAT));
-		species.push_back(ss);
-	}
 
 	//сами существа
 	iss.read((char*)&g,sizeof(unsigned short));
@@ -146,11 +150,7 @@ void OECOSYS::arch (std::string &dst)
 	if(ultvid ==0) _ultvid = 0xffff;
 	iss.write((char*)&_ultvid,sizeof(unsigned short));
 
-	//виды
-	unsigned short g = species.size();
-	iss.write((char*)&g,sizeof(unsigned short));
-	for(int i=0;i<g;i++)
-		iss.write((char*)&species[i], sizeof(SPE_STAT));
+	unsigned short g;
 
 	//сами существа
 	g = corp.size();
@@ -204,51 +204,56 @@ void OECOSYS::gen(int n, int nsp, int pattern)
 	corp.reserve(n*nsp);
 
 	//заполнить все существа
-	for(int s=0;s<nsp;s++)
-	for(int i=0;i<n;i++)
+	int si = 0;
+	for(auto s=species.begin(); s!=species.end(); s++, si++)
 	{
-		//образец нового существа
-		CORP c(species[s].g, stoch());
 
-		float gposx = (float)(CORP::synth(c.gen_spe,15, 0))/(float)(0xffff);
-		float gposy = (float)(CORP::synth(c.gen_spe,31,16))/(float)(0xffff);
-
-
-		//произвольное расположение в пределах области
-		switch(pattern)
+		for(int i=0;i<n;i++)
 		{
-		//хаос
-		case 0:
-			c.x = lx1 + (lx2-lx1)*(0.1 + 0.8*rand()/RAND_MAX);
-			c.y = ly1 + (ly2-ly1)*(0.1 + 0.8*rand()/RAND_MAX);
-			break;
-		//островки
-		case 1:
+			//образец нового существа
+			CORP c(s->g, stoch());
+
+			float gposx = (float)(CORP::synth(c.gen_spe,15, 0))/(float)(0xffff);
+			float gposy = (float)(CORP::synth(c.gen_spe,31,16))/(float)(0xffff);
+
+
+			//произвольное расположение в пределах области
+			switch(pattern)
 			{
-				float theta = 2*3.14*rndu();
-				float r = rndu();
-				c.x = lx1 + (lx2-lx1)*(0.2 + 0.7*gposx + 0.1*r*cos(theta));
-				c.y = ly1 + (ly2-ly1)*(0.2 + 0.7*gposy + 0.1*r*sin(theta));
+			//хаос
+			case 0:
+				c.x = lx1 + (lx2-lx1)*(0.1 + 0.8*rand()/RAND_MAX);
+				c.y = ly1 + (ly2-ly1)*(0.1 + 0.8*rand()/RAND_MAX);
+				break;
+			//островки
+			case 1:
+				{
+					float theta = 2*3.14*rndu();
+					float r = rndu();
+					c.x = lx1 + (lx2-lx1)*(0.2 + 0.7*gposx + 0.1*r*cos(theta));
+					c.y = ly1 + (ly2-ly1)*(0.2 + 0.7*gposy + 0.1*r*sin(theta));
+				}
+				break;
+			//сетка
+			case 2:
+				c.x = lx1 + (lx2-lx1)*( ((n*si+i)/storona)/(float)storona );
+				c.y = ly1 + (ly2-ly1)*( ((n*si+i)%storona)/(float)storona );
+				break;
+			//сетка по секциям по видам
+			case 3:
+				//c = CORP(species[ (int)((i/storona)/(float)storona * species.size())%species.size() ].g, stoch());
+				c = CORP(s->g, stoch());
+				c.x = lx1 + (lx2-lx1)*( ((n*si+i)/storona)/(float)storona );
+				c.y = ly1 + (ly2-ly1)*( ((n*si+i)%storona)/(float)storona );
+				break;
 			}
-			break;
-		//сетка
-		case 2:
-			c.x = lx1 + (lx2-lx1)*( ((n*s+i)/storona)/(float)storona );
-			c.y = ly1 + (ly2-ly1)*( ((n*s+i)%storona)/(float)storona );
-			break;
-		//сетка по секциям по видам
-		case 3:
-			c = CORP(species[ (int)((i/storona)/(float)storona * species.size())%species.size() ].g, stoch());
-			c.x = lx1 + (lx2-lx1)*( (i/storona)/(float)storona );
-			c.y = ly1 + (ly2-ly1)*( (i%storona)/(float)storona );
-			break;
+
+			c.rx = c.x;
+			c.ry = c.y;
+
+			corp.push_back(c);
+			massa += c.m;
 		}
-
-		c.rx = c.x;
-		c.ry = c.y;
-
-		corp.push_back(c);
-		massa += c.m;
 	}
 
 	sel = 0;
@@ -267,7 +272,7 @@ void OECOSYS::add (GENE spec, int n, float px, float py, float distr)
 
 	//добавить новый вид, если такого ещё нет
 	bool est = false;
-	for(int i=0; i<species.size(); i++) if(species[i].g == spec) est = true;
+	for(auto i=species.begin(); i!=species.end(); i++) if(i->g == spec) est = true;
 	if(!est) 
 	{
 		SPE_STAT ss;
@@ -393,9 +398,9 @@ void OECOSYS::mod_a (CORP& cur)
 
 		float max_mass = genes[MAX_MASS].val(&cur);
 
-		float sui_philia = genes[SUI_PHILIA].val(&cur) + (1 + max_mass/100);
+		float sui_philia = genes[SUI_PHILIA].val(&cur) * (1 + cur.m/max_mass);
 		float sui_phobia = genes[SUI_PHOBIA].val(&cur);
-		float opp_philia = genes[OPP_PHILIA].val(&cur) * (1 - max_mass/100);
+		float opp_philia = genes[OPP_PHILIA].val(&cur) * (2 - 3*cur.m/max_mass);
 		float opp_phobia = genes[OPP_PHOBIA].val(&cur);
 
 		//количество отследиваемых в поле зрения
@@ -431,16 +436,21 @@ void OECOSYS::mod_a (CORP& cur)
 					return;
 
 				CORP& vic = *j;
+				float afactor = global_factor;
+
+
 				float dist = cur.dist(vic);
 
 				//репродуктивная масса соседа
 				float vic_adult_m = genes[MIN_REPRODUCT_MASS].val(&vic);
 
-				float afactor = global_factor;
 
 				//если этот сосед видим
 				if(dist < vis_dist)
 				{
+					//экспериментальная фича призванная сделать чуваков более глобально целеустремленными
+					if(dist>0.5*vis_dist) dist = 0.5*vis_dist;
+
 					//компонент ускорения на этого соседа
 					rax = 0; ray = 0;
 
@@ -466,10 +476,6 @@ void OECOSYS::mod_a (CORP& cur)
 							}
 							else
 							{
-								//экстремальное сближение порождает отталкивание
-								rax = afactor * dx;
-								ray = afactor * dy;
-
 								//переприсвоить расстояние, чтобы данный случай не подпадал под концентрацию на одной цели
 								dist = 1000;
 							}
@@ -480,16 +486,15 @@ void OECOSYS::mod_a (CORP& cur)
 							
 							//показатель зрелости обоих, >1 -> зрелы
 							float a_ratio = (cur.m * vic.m ) / (cur_adult_m * vic_adult_m);
-							afactor *= (1 - a_ratio) / (dist - copu_dist/2);
+							afactor *= (1 - a_ratio) / (dist - copu_dist*0.5);
+							//afactor *= (1 - a_ratio) * 0.1;
 							if(a_ratio>1)
 								if(!vic_adult)	afactor *= pedophilia;
 								else			afactor *= sui_philia;
 							else				afactor *= sui_phobia;
 
-							//сближение (от зрелости) или удаление (по молодости)
-							rax = afactor * dx;
-							ray = afactor * dy;
 						}
+
 					}
 					//чужие, в том числе умершие своей смертью
 					else
@@ -505,10 +510,6 @@ void OECOSYS::mod_a (CORP& cur)
 							}
 							else
 							{
-								//экстремальное сближение порождает отталкивание
-								rax = afactor * dx;
-								ray = afactor * dy;
-
 								//переприсвоить расстояние, чтобы данный случай не подпадал под концентрацию на одной цели
 								dist = 1000;
 							}
@@ -539,8 +540,9 @@ void OECOSYS::mod_a (CORP& cur)
 							//риск застоя при выравнгивании плотности
 							#if AGGR_METHOD == 1
 							m_ratio = cur.m/vic.m;
-							if(vic.e<=0) m_ratio = necrophagia*(1.0 + vic.m/3);
+							if(vic.e<=0) m_ratio = necrophagia*(1.0 + vic.m/10);
 							afactor *= (1 - m_ratio) / (dist - crit_dist/2);
+							//afactor *= (1 - m_ratio) * 0.1;
 							if(m_ratio>1)	afactor *= opp_philia;
 							else			afactor *= opp_phobia;
 							#endif
@@ -557,12 +559,14 @@ void OECOSYS::mod_a (CORP& cur)
 							#endif
 							//---------------------------------------------------------------
 
-							//сближение или удаление
-							rax = afactor * dx;
-							ray = afactor * dy;
 
 						}
 					}
+					
+					//сближение (от зрелости) или удаление (по молодости)
+					//по умолчаюнию - экстремальное сближение - порождает отталкивание
+					rax = afactor * dx;
+					ray = afactor * dy;
 
 					//если текущий сосед оказался ближе предыдущих, обновить звание ближайшего
 					if(dist < mindist)	{ 	mindist = dist;	minrax = rax; minray = ray;	}
@@ -587,14 +591,14 @@ void OECOSYS::mod_a (CORP& cur)
 			accay /= nvic;
 		}
 
+		//величина чисто прагматического ускорения
 		double mag = accax*accax + accay*accay;
 
 		//дискомфорт от несоотвествия числа окружающих идеальному - тяга метаться
 		float inquiet = ( 1 + abs(nvic-vis_qnt) ) / (nvic + vis_qnt);
 
 		//праздношатание в произвольную сторону, зависит от целей в жизни
-		double randfactor = 	(inquiet + 1/(mag+0.1)) * (0.1 + cur.phaeno_uni(STOCH_MOT_INTENT));
-								//+ 10.0		*cur.phaeno_uni(TEMP_VIRGIN);
+		double randfactor = (inquiet + 0.1/(mag+0.01)) * (0.1 + cur.phaeno_uni(STOCH_MOT_INTENT));
 
 		randfactor *= global_factor;
 
@@ -668,6 +672,7 @@ void OECOSYS::mod_r (CORP& cur, double dT, double pdT)
 	//поиск кандидатов на удаление (с отсосанной до нуля массой то есть съеденных)
 	if(cur.e<=0)
 	{
+		//пусть по инерции пролетят сколько-то и затормозятся - потом удалять
 		if(magv < 0.01)
 		{
 			//пометить текущий как совсем мёртвый
@@ -768,29 +773,61 @@ void OECOSYS::iteratio(uint64_t nsec)
 //=========================================================================================================
 void OECOSYS::calcul()
 {
-	for(int j=0;j<species.size();j++)
+	//очистка прошлых результатов
+	auto j = species.begin();
+	while( j != species.end() )
 	{
-		species[j].qnt=0;
-		species[j].m=0;
+		//удаление окончательно исчезнувших видов
+		if(j->qnt == -1) 
+		{
+			species.erase(j++);
+		}
+		else
+		{
+			j->qnt=0;
+			j->m=0;
+			++j;
+		}
 	}
 	massa = 0;
 	gener = 0;
 	vivi = 0;
 	for(auto i=corp.begin(); i!=corp.end(); i++)
 	{
+		//реально существующий, не болванка для новорожденных
 		if(i->est)
 		{
 			vivi++;
+
+			//реально живой, не труп
 			if(i->e>0)
 			{
+				//максимальное поколение
 				if(gener<i->gener) gener = i->gener;
+
+				//общая масса
 				massa += i->m;
-				for(int j=0;j<species.size();j++)
-					if(i->gen_spe == species[j].g) 
+
+				//обновление списка видов
+				bool exist = false;
+				for(auto j=species.begin(); j!=species.end(); j++)
+				{
+					if(i->gen_spe == j->g) 
 					{
-						species[j].qnt++;
-						species[j].m += i->m;
+						exist = true;
+						j->qnt++;
+						j->m += i->m;
 					}
+				}
+				//если неайден хрен неопознанного вида - добавить в список
+				if(!exist) 
+				{
+					SPE_STAT ss;
+					ss.qnt = 1;
+					ss.m = i->m;
+					ss.g = i->gen_spe;
+					species.push_back(ss);
+				}
 			}
 		}
 	}

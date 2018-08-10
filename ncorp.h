@@ -125,19 +125,21 @@ struct CORP
 	//убить и съесть
 	void devor(CORP& vic, float crit_dist)
 	{
-		//съесть зараз можно не больше своей массы
-		float part = m/vic.m;
-		if(part>0.9) part = 1.0;
 
-		m += vic.m*part; 
+		//не влезает
+		if(m + vic.m > phaeno(MAX_MASS))
+		{
+			return;
+		}
 		
+		//присвоить чужую массу
+		m += vic.m; 
+
 		//если съел труп, энергия сразу в максимум, иначе может резко опуститься
 		e = e - vic.e;
-
-		// убить душу, но возможно оставить тело
 		vic.e = 0;						
 		vic.erase();
-		vic.m -= vic.m*part;
+		vic.m = 0;
 		ndevor++;
 	}
 
@@ -208,6 +210,7 @@ struct SPE_STAT
 	GENE g;
 	int qnt;
 	float m;
+	SPE_STAT():m(0),qnt(0),g(DEGENE) {}
 };
 
 
@@ -218,7 +221,7 @@ class OECOSYS
 
 public:
 
-	std::vector<SPE_STAT> species;	// список видов
+	std::list<SPE_STAT> species;	// список видов
 	std::vector <CORP> corp;		// список тел
 
 private:
