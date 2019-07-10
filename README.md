@@ -30,7 +30,7 @@ A simple visual biology/genetics/ecosystems model.
 1. A newborn inherits both parents' individual genes in some adjustable way, by default using crossingover, i.e. every gene is randomly taken from ether parent1 or parent2.
 1. With a certain probability a mutation occurs causing a parent gene be slightly changed before creature installed into the child's genome.
 
-Due to a low range of model parameters + lack of author's knowledge some true genetic models were abandonned or simply don't work correctly.
+Due to a low range of model parameters + lack of author's knowledge some true genetic models were abandoned or simply don't work correctly.
 So the goal of the project evolved into reaching an addictive visual drama instead of pure investigation.
 There are no sophisticaed models delimiting possibility of hybridisation between two random creatures, no selfish genes gaining proper complexes for themselves, anyway it's hardly demonstrated in colored real-time pixels.
 The main focus of the program is thus showing a competition between differently skilled species in a form of an epic worm battle. 
